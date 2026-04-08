@@ -209,19 +209,28 @@ const About = () => {
           <div className="lg:col-span-3 flex flex-col gap-4">
             
             {/* Location Card */}
-            <div className="bg-[#09090b] h-[280px] rounded-[24px] border border-zinc-800/80 p-5 relative overflow-hidden flex flex-col justify-between">
-               {/* Map Background Layer */}
-               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center grayscale opacity-20"></div>
-               <div className="absolute inset-0 bg-black/40"></div>
-               {/* Glowing Dot */}
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-emerald-500/30 blur-2xl rounded-full"></div>
+            <div className="bg-[#09090b] h-[280px] rounded-[24px] border border-zinc-800/80 relative overflow-hidden flex flex-col justify-between group cursor-default shadow-sm hover:border-accent-neon/30 transition-colors duration-500">
+               {/* High-Tech Map Background Layer */}
+               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop')] bg-cover bg-center opacity-[0.35] mix-blend-luminosity group-hover:scale-110 group-hover:opacity-60 transition-all duration-1000 ease-out"></div>
+               <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/50 to-transparent pointer-events-none"></div>
                
-               <div className="relative z-10 w-full flex justify-start">
+               {/* Radar/Pulse Location Marker */}
+               <div className="absolute top-[45%] left-[65%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+                 <div className="absolute w-32 h-32 bg-accent-neon/10 rounded-full blur-xl group-hover:bg-accent-neon/20 transition-colors duration-500"></div>
+                 <div className="absolute w-16 h-16 border border-accent-neon/30 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                 <div className="absolute w-8 h-8 border border-accent-neon/50 rounded-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                 <div className="absolute w-2.5 h-2.5 bg-accent-neon rounded-full shadow-[0_0_15px_rgba(0,255,255,1)]"></div>
+               </div>
+               
+               <div className="relative z-10 w-full flex justify-start p-5 pointer-events-none">
                  <Badge icon={<MapPin />} text="Location" />
                </div>
                
-               <div className="relative z-10 w-8 h-8 rounded-full bg-black/80 border border-zinc-800 flex items-center justify-center text-zinc-400">
-                 —
+               <div className="relative z-10 w-full flex flex-col p-5 bg-gradient-to-t from-[#09090b] to-transparent pointer-events-none">
+                 <span className="text-zinc-400 text-[10px] font-mono uppercase tracking-widest mb-1 flex items-center gap-2 group-hover:text-accent-neon transition-colors duration-300">
+                   <div className="w-1.5 h-1.5 bg-accent-neon rounded-full animate-pulse"></div> Base of Operations
+                 </span>
+                 <h4 className="text-white text-2xl font-bold tracking-tight">Bharuch, India</h4>
                </div>
             </div>
 

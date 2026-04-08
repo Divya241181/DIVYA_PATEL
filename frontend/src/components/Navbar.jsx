@@ -19,23 +19,40 @@ const Navbar = () => {
 
       {/* Center Nav Pills (Hidden on mobile) */}
       <div className="hidden md:flex items-center gap-2 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-6 py-3 rounded-full">
-        <a href="#home" className="text-zinc-400 hover:text-white transition-colors text-sm px-4 py-1 rounded-full flex items-center gap-2">
-           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-           Home
+        <a href="#home" className="group button-calypso text-sm px-4 py-1.5 transition-colors duration-300" style={{ '--hover-bg': '#B599FF' }}>
+           <span className="calypso-text flex items-center gap-2 font-medium text-zinc-400 group-hover:text-black transition-colors duration-300">
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+             Home
+           </span>
         </a>
-        <a href="#projects" className="text-zinc-400 hover:text-white transition-colors text-sm px-4 py-1 rounded-full flex items-center gap-2">
-           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-           My Projects
+        <a href="#projects" className="group button-calypso text-sm px-4 py-1.5 transition-colors duration-300" style={{ '--hover-bg': '#FFD700' }}>
+           <span className="calypso-text flex items-center gap-2 font-medium text-zinc-400 group-hover:text-black transition-colors duration-300">
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+             My Projects
+           </span>
         </a>
-        <a href="#about" className="text-zinc-400 hover:text-white transition-colors text-sm px-4 py-1 rounded-full flex items-center gap-2">
-           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-           About Me
+        <a href="#about" className="group button-calypso text-sm px-4 py-1.5 transition-colors duration-300" style={{ '--hover-bg': '#00FFFF' }}>
+           <span className="calypso-text flex items-center gap-2 font-medium text-zinc-400 group-hover:text-black transition-colors duration-300">
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+             About Me
+           </span>
         </a>
       </div>
 
       {/* Right Contact Pill */}
-      <a href="#contact" className="bg-zinc-950/80 hover:bg-zinc-900 backdrop-blur-md border border-zinc-800/80 px-6 py-3 rounded-full text-white text-sm font-medium transition-colors">
-        Contact Me
+      <a href="#contact" className="group button-calypso bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-5 py-2.5 sm:px-6 sm:py-3 cursor-pointer block" style={{ '--hover-bg': '#0ea5e9' }}>
+        <span className="calypso-text flex items-center gap-3 text-white text-sm font-medium">
+           {/* Pulsing Availability Dot */}
+           <span className="relative flex items-center justify-center shrink-0">
+              <span className="absolute w-3.5 h-3.5 bg-[#39FF14] rounded-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-60"></span>
+              <span className="relative w-2.5 h-2.5 bg-[#39FF14] rounded-full shadow-[0_0_8px_rgba(57,255,20,0.8)]"></span>
+           </span>
+           
+           {/* Text */}
+           <span className="tracking-wide">
+             Let's Connect
+           </span>
+        </span>
       </a>
     </motion.nav>
   );
