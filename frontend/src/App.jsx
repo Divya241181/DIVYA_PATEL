@@ -27,6 +27,18 @@ function App() {
       touchMultiplier: 2,
     });
 
+    // Handle smooth scroll for anchor links
+    const handleAnchorClick = (e) => {
+      const href = e.currentTarget.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        lenis.scrollTo(href);
+      }
+    };
+
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => link.addEventListener('click', handleAnchorClick));
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -36,6 +48,7 @@ function App() {
 
     return () => {
       lenis.destroy();
+      links.forEach(link => link.removeEventListener('click', handleAnchorClick));
     };
   }, []);
 

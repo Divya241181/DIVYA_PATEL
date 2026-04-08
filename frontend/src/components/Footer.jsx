@@ -39,18 +39,6 @@ const Footer = () => {
                 LinkedIn
               </a>
               <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
-                <div className="w-6 h-6 rounded-full bg-[#1769FF] flex items-center justify-center shrink-0">
-                  <SiBehance className="text-white w-3 h-3" />
-                </div>
-                Behance
-              </a>
-              <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
-                <div className="w-6 h-6 rounded-full bg-[#EA4C89] flex items-center justify-center shrink-0">
-                  <SiDribbble className="text-white w-3 h-3" />
-                </div>
-                Dribble
-              </a>
-              <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
                 <div className="w-6 h-6 rounded-full bg-[#5865F2] flex items-center justify-center shrink-0">
                   <SiDiscord className="text-white w-3 h-3" />
                 </div>
@@ -96,7 +84,7 @@ const Footer = () => {
              className="w-full h-auto text-[#FDFFE6] hover:text-white transition-colors duration-500 select-none cursor-default" 
              viewBox="0 0 1000 180" 
              preserveAspectRatio="none"
-             style={{ transform: 'scale(1, 1.6)', transformOrigin: 'bottom center', marginBottom: '-0.5%' }}
+             style={{ transform: 'scale(1.09, 1.6)', transformOrigin: 'bottom center', marginBottom: '-0.5%' }}
            >
              <text 
                x="50%" 
