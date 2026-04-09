@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { RevealBlock } from './RevealText';
 import {
   SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiFramer,
   SiFigma, SiExpress, SiJavascript, SiPython, SiDjango, SiGit,
@@ -84,35 +85,28 @@ const techCategories = [
   },
 ];
 
-const SkillBar = ({ name, pct, accent, delay }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-
-  return (
-    <div ref={ref} className="flex flex-col gap-1.5">
-      <div className="flex justify-between items-center">
-        <span className="text-zinc-400 text-xs font-mono">{name}</span>
-        <span className="text-zinc-500 text-xs font-mono">{pct}%</span>
-      </div>
-      <div className="h-1 rounded-full bg-zinc-800 overflow-hidden">
-        <motion.div
-          className="h-full rounded-full"
-          style={{ backgroundColor: accent }}
-          initial={{ width: 0 }}
-          animate={inView ? { width: `${pct}%` } : {}}
-          transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
-        />
-      </div>
+const SkillBar = ({ name, pct, accent, delay }) => (
+  <div className="flex flex-col gap-1.5">
+    <div className="flex justify-between items-center">
+      <span className="text-zinc-400 text-xs font-mono">{name}</span>
+      <span className="text-zinc-500 text-xs font-mono">{pct}%</span>
     </div>
-  );
-};
+    <div className="h-1 rounded-full bg-zinc-800 overflow-hidden">
+      <motion.div
+        className="h-full rounded-full"
+        style={{ backgroundColor: accent }}
+        initial={{ width: 0 }}
+        whileInView={{ width: `${pct}%` }}
+        viewport={{ once: false, amount: 0.5 }}
+        transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+      />
+    </div>
+  </div>
+);
 
 const Skills = () => {
-  const sectionRef = useRef(null);
-  const inView = useInView(sectionRef, { once: true, margin: '-80px' });
-
   return (
-    <section id="skills" ref={sectionRef} className="py-24 relative overflow-hidden bg-transparent">
+    <section id="skills" className="py-24 relative overflow-hidden bg-transparent">
       {/* Ambient auras */}
       <div className="absolute top-[10%] left-[-15%] w-[55vw] h-[55vw] bg-accent-neon/4 rounded-full blur-[150px] pointer-events-none -z-10" />
       <div className="absolute bottom-[10%] right-[-15%] w-[45vw] h-[45vw] bg-accent-purple/5 rounded-full blur-[150px] pointer-events-none -z-10" />
@@ -122,12 +116,13 @@ const Skills = () => {
         {/* ── Section Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-14"
         >
           <div className="w-12 h-[1px] bg-zinc-600" />
-          <span className="text-white text-xl font-bold tracking-widest uppercase">
+          <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">
             Tech Stack <span className="text-zinc-600">//</span> <span className="text-accent-gold">Tools</span>
           </span>
         </motion.div>
@@ -138,7 +133,8 @@ const Skills = () => {
             <motion.div
               key={cat.id}
               initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.15 }}
               transition={{ duration: 0.7, delay: ci * 0.12, ease: [0.16, 1, 0.3, 1] }}
               className={`${cat.span} group relative rounded-[28px] border border-zinc-800/80 bg-zinc-950/70 backdrop-blur-xl overflow-hidden cursor-default transition-all duration-500 hover:border-current`}
               style={{ '--hover-color': cat.accent }}
@@ -174,7 +170,7 @@ const Skills = () => {
                     >
                       {cat.learning ? '🔥 Active' : `Category ${cat.id}`}
                     </span>
-                    <h3 className="text-white font-black text-xl md:text-2xl tracking-tight group-hover:text-white transition-colors">
+                    <h3 className="text-white font-black text-xl md:text-2xl tracking-tight group-hover:text-white transition-colors font-heading">
                       {cat.label}
                     </h3>
                   </div>
@@ -196,7 +192,9 @@ const Skills = () => {
                 </div>
 
                 {/* Description */}
-                <p className="text-zinc-400 text-sm leading-relaxed">{cat.description}</p>
+                <RevealBlock delay={0.1}>
+                  <p className="text-zinc-400 text-sm leading-relaxed">{cat.description}</p>
+                </RevealBlock>
 
                 {/* Skill bars */}
                 {cat.skills.length > 0 && (
@@ -285,7 +283,7 @@ const Skills = () => {
                     key={j}
                     className={small
                       ? 'text-3xl animate-pulse'
-                      : 'text-5xl md:text-7xl font-black text-zinc-300/30 hover:text-zinc-100 transition-colors duration-300 cursor-default select-none'
+                      : 'text-5xl md:text-7xl font-black font-heading text-zinc-300/30 hover:text-zinc-100 transition-colors duration-300 cursor-default select-none'
                     }
                     style={color ? { color } : {}}
                   >

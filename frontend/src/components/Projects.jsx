@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { RevealBlock } from './RevealText';
 
 const projects = [
   {
@@ -34,7 +35,7 @@ const Projects = () => {
         {/* Section Header */}
         <div className="flex items-center gap-4 mb-24 px-4 md:px-0">
           <div className="w-12 h-[1px] bg-zinc-600"></div>
-          <span className="text-white text-xl font-bold tracking-widest uppercase">Selected <span className="text-accent-purple">Works</span></span>
+          <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">Selected <span className="text-accent-purple">Works</span></span>
         </div>
 
         {/* Projects List */}
@@ -46,7 +47,7 @@ const Projects = () => {
                 key={project.id}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: false, margin: "-100px" }}
                 transition={{ duration: 1 }}
                 className={`relative flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-0`}
               >
@@ -55,7 +56,7 @@ const Projects = () => {
                 <motion.div 
                   initial={{ x: isEven ? -100 : 100, rotateY: isEven ? 10 : -10, opacity: 0 }}
                   whileInView={{ x: 0, rotateY: isEven ? 5 : -5, opacity: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                   className="w-full lg:w-[70%] relative group perspective-1000"
                 >
@@ -84,7 +85,7 @@ const Projects = () => {
                 <motion.div 
                   initial={{ x: isEven ? 50 : -50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                   className={`w-full lg:w-[45%] bg-zinc-950/90 backdrop-blur-2xl p-8 md:p-12 lg:p-16 rounded-[2.5rem] border border-white/5 shadow-2xl relative z-20 lg:mt-0 ${isEven ? 'lg:ml-[-15%]' : 'lg:mr-[-15%]'} hover:border-white/20 transition-colors duration-500 overflow-hidden`}
                 >
@@ -95,13 +96,15 @@ const Projects = () => {
                       <span>{project.date.split('•')[1]}</span>
                    </div>
 
-                   <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter leading-[0.9]">
+                   <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter font-heading leading-[0.9]">
                      {project.title}
                    </h2>
 
-                   <p className="text-zinc-400 text-lg leading-relaxed mb-10 max-w-md">
-                     {project.description}
-                   </p>
+                   <RevealBlock delay={0.15}>
+                     <p className="text-zinc-400 text-lg leading-relaxed mb-10 max-w-md">
+                       {project.description}
+                     </p>
+                   </RevealBlock>
 
                    {/* Functional Actions */}
                    <div className="flex flex-wrap items-center gap-6">

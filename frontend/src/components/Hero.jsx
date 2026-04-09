@@ -1,27 +1,28 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 
-// ── Letter3D: reusable 3D stagger-animated character ──────────
-const Letter3D = ({ char, delay = 0, baseColor = 'text-white' }) => (
-  <motion.span
-    className={`inline-block ${baseColor}`}
-    initial={{ opacity: 0, y: 80, rotateX: -90, z: -200 }}
-    animate={{ opacity: 1, y: 0, rotateX: 0, z: 0 }}
-    transition={{
-      duration: 1.0,
-      delay,
-      ease: [0.16, 1, 0.3, 1],
-    }}
-    whileHover={{
-      z: 40,
-      y: -8,
-      textShadow: '0 20px 40px rgba(0,0,0,0.5)',
-      transition: { duration: 0.2 }
-    }}
-    style={{ transformStyle: 'preserve-3d', display: 'inline-block' }}
-  >
-    {char === ' ' ? '\u00A0' : char}
-  </motion.span>
+// ── Word-level slide-up animation with elastic spring ──────────
+const AnimatedWord = ({ word, delay = 0, className = '' }) => (
+  <span className="inline-block overflow-hidden">
+    <motion.span
+      className={`inline-block ${className}`}
+      initial={{ y: '120%', rotateZ: 8, opacity: 0 }}
+      animate={{ y: '0%', rotateZ: 0, opacity: 1 }}
+      transition={{
+        duration: 1,
+        delay,
+        ease: [0.22, 1.2, 0.36, 1], // elastic overshoot
+      }}
+      whileHover={{
+        y: -6,
+        color: '#ccff00',
+        transition: { duration: 0.2 }
+      }}
+      style={{ display: 'inline-block' }}
+    >
+      {word}
+    </motion.span>
+  </span>
 );
 
 // ── Holographic ID Badge ──────────────────────────────────────
@@ -189,7 +190,7 @@ const HoloBadge = () => {
           {/* ── Identity info ── */}
           <div className="relative z-10 px-5 pt-4 pb-3 flex flex-col gap-2">
             <div className="flex items-baseline justify-between">
-              <h3 className="text-white font-black text-lg tracking-tight">DIVYA PATEL</h3>
+              <h3 className="text-white font-black text-lg tracking-tight font-heading">DIVYA PATEL</h3>
               <span className="text-[9px] font-mono text-accent-neon tracking-widest">LVL ∞</span>
             </div>
 
@@ -251,6 +252,13 @@ const HoloBadge = () => {
 // ── Main Hero Component ──────────────────────────────────────
 const Hero = () => {
   const containerRef = useRef(null);
+  const [initialAnimDone, setInitialAnimDone] = useState(false);
+
+  // After all load animations complete, switch paragraph to scroll-triggered mode
+  useEffect(() => {
+    const t = setTimeout(() => setInitialAnimDone(true), 5000);
+    return () => clearTimeout(t);
+  }, []);
 
   // Spring physics for smooth mouse tracking (headlines)
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 });
@@ -274,9 +282,6 @@ const Hero = () => {
     mouseY.set(0);
   }, [mouseX, mouseY]);
 
-  const line1 = 'FULL STACK'.split('');
-  const line2 = 'WEB DEV'.split('');
-
   return (
     <section
       id="home"
@@ -285,7 +290,7 @@ const Hero = () => {
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16"
+        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-6"
         ref={containerRef}
       >
         {/* Left Typography Column */}
@@ -312,70 +317,50 @@ const Hero = () => {
               perspective: 1200,
             }}
           >
-            {/* Line 1: FULL STACK */}
+            {/* Line 1: FULL STACK — word-level elastic slide-up */}
             <div
-              className="text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase m-0 p-0 font-sans block"
+              className="font-heading block"
               style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="block mb-2">
-                {line1.map((char, i) => (
-                  <Letter3D
-                    key={`l1-${i}`}
-                    char={char}
-                    delay={3.0 + i * 0.05}
-                    baseColor="text-white"
-                  />
-                ))}
+              <div className="text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase text-white block mb-1">
+                <AnimatedWord word="FULL" delay={3.0} />
+                <span className="inline-block w-[0.3em]" />
+                <AnimatedWord word="STACK" delay={3.15} />
               </div>
 
-              {/* Line 2: WEB DEV — gradient + stagger */}
-              <div
-                className="block text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta"
+              {/* Line 2: WEB DEV — elastic slide-up + shimmer gradient */}
+              <motion.div
+                className="text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase block text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta"
                 style={{ backgroundSize: '200% auto' }}
+                animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
               >
-                <motion.div
-                  className="inline"
-                  animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                >
-                  {line2.map((char, i) => (
-                    <motion.span
-                      key={`l2-${i}`}
-                      className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta"
-                      style={{ backgroundSize: '300% auto' }}
-                      initial={{ opacity: 0, y: 80, rotateX: -90 }}
-                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                      whileHover={{ y: -10, scale: 1.05, transition: { duration: 0.15 } }}
-                      transition={{
-                        duration: 1.0,
-                        delay: 3.0 + line1.length * 0.05 + i * 0.06,
-                        ease: [0.16, 1, 0.3, 1],
-                      }}
-                    >
-                      {char === ' ' ? '\u00A0' : char}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              </div>
+                <AnimatedWord word="WEB" delay={3.3} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" />
+                <span className="inline-block w-[0.3em]" />
+                <AnimatedWord word="DEV" delay={3.45} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" />
+              </motion.div>
             </div>
 
-            {/* Subtle 3D depth layer — a ghost copy shifted back in Z */}
+            {/* Subtle 3D depth layer — ghost copy shifted back in Z */}
             <div
-              className="absolute inset-0 text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase pointer-events-none select-none opacity-[0.04] text-accent-neon blur-[1px]"
+              className="absolute inset-0 text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase pointer-events-none select-none opacity-[0.04] text-accent-neon blur-[1px] font-heading"
               style={{ transform: 'translateZ(-40px)', transformStyle: 'preserve-3d' }}
               aria-hidden
             >
-              <div className="block mb-2">FULL STACK</div>
+              <div className="block mb-1">FULL STACK</div>
               <div className="block">WEB DEV</div>
             </div>
           </motion.div>
 
-          {/* Animated Paragraph */}
+          {/* Animated Paragraph — bi-directional scroll-triggered text arrival */}
+          <div className="mt-6 md:mt-10 max-w-xl mx-auto lg:mx-0 relative z-10 overflow-hidden">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 3.7 }}
-            className="mt-6 md:mt-10 max-w-xl mx-auto lg:mx-0 relative z-10"
+            initial={{ y: '100%', opacity: 0 }}
+            {...(initialAnimDone
+              ? { whileInView: { y: '0%', opacity: 1 }, viewport: { once: false, amount: 0.2 } }
+              : { animate: { y: '0%', opacity: 1 } }
+            )}
+            transition={{ duration: 0.85, delay: initialAnimDone ? 0 : 3.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="text-base md:text-lg lg:text-xl text-zinc-400 font-medium leading-relaxed">
               Engineering high-performance{' '}
@@ -397,6 +382,7 @@ const Hero = () => {
               digital solutions.
             </p>
           </motion.div>
+          </div>
 
           {/* CTA Buttons */}
           <motion.div

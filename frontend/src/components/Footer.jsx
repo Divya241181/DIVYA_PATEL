@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { SiBehance, SiDribbble, SiDiscord, SiGithub } from 'react-icons/si';
 import { FaLinkedinIn } from 'react-icons/fa';
+import RevealBlock from './RevealText';
 
 const Footer = () => {
   return (
@@ -13,9 +14,11 @@ const Footer = () => {
           
           {/* Left: Headline */}
           <div className="lg:col-span-5">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium leading-snug max-w-[300px]">
-              Where <span className="text-[#d946ef]">aesthetics</span> &{' '}<br/><span className="text-[#06b6d4]">functionality</span> meet
-            </h2>
+            <RevealBlock delay={0.1}>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium leading-snug max-w-[300px] font-heading">
+                Where <span className="text-[#d946ef]">aesthetics</span> &{' '}<br/><span className="text-[#06b6d4]">functionality</span> meet
+              </h2>
+            </RevealBlock>
           </div>
 
           {/* Middle: Links */}
@@ -74,10 +77,10 @@ const Footer = () => {
         {/* Massive Typography */}
         <div className="w-full flex flex-col items-center justify-end overflow-hidden pt-16 md:pt-28 pb-0">
            <svg 
-             className="w-full h-auto text-[#FDFFE6] hover:text-white transition-colors duration-500 select-none cursor-default" 
+             className="w-full h-auto text-[#e8e4d9] select-none cursor-default" 
              viewBox="0 0 1000 180" 
              preserveAspectRatio="none"
-             style={{ transform: 'scale(1.08, 1.6)', transformOrigin: 'bottom center', marginBottom: '-0.5%' }}
+             style={{ transform: 'scale(1.06, 1.6)', transformOrigin: 'bottom center', marginBottom: '-0.5%' }}
            >
              <text 
                x="50%" 
@@ -89,15 +92,15 @@ const Footer = () => {
                fontSize="200"
                fill="currentColor"
              >
-               Divya Patel
+               DivyaPatel
              </text>
            </svg>
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-5 mb-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-zinc-500 font-medium text-[11px] uppercase tracking-widest border-t border-zinc-800/80 mt-0 relative z-20">
-           <p>Divya Patel ©2026 - Privacy Policy</p>
-           <p>Gujarat, India</p>
+        <div className="py-5 mb-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-zinc-500 font-medium text-xs uppercase tracking-widest border-t border-zinc-800/80 mt-0 relative z-20">
+           <p><span className="font-bold text-zinc-300">Divya Patel</span> ©2026 - Privacy Policy</p>
+           <p className="font-bold text-zinc-300">Gujarat, India</p>
         </div>
 
       </div>

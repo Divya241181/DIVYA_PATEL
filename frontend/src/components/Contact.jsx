@@ -7,7 +7,7 @@ const Contact = () => {
   const [status, setStatus] = useState('');
   const [focused, setFocused] = useState(null);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: false, margin: '-100px' });
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -80,7 +80,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 60 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14vw] sm:text-[10vw] md:text-[8rem] font-black uppercase leading-[0.82] tracking-tighter text-white"
+            className="text-[14vw] sm:text-[10vw] md:text-[8rem] font-black uppercase leading-[0.82] tracking-tighter text-white font-heading"
           >
             Let's{' '}
             <motion.span
