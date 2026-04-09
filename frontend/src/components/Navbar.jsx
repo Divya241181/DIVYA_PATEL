@@ -41,12 +41,16 @@ const Navbar = () => {
         className="max-w-[1400px] w-full mx-auto px-4 md:px-8 py-5 flex items-center justify-between z-50 relative top-0"
       >
         {/* Left Profile Pill */}
-        <div className="flex items-center gap-3 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-2 py-2 pr-5 rounded-full">
-          <div className="w-8 h-8 rounded-full overflow-hidden bg-zinc-800 shrink-0">
+        <button 
+          onClick={() => window.location.reload()}
+          className="flex items-center gap-3 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-2 py-2 pr-5 rounded-full cursor-pointer hover:border-zinc-700 hover:bg-zinc-900/80 transition-all group"
+          aria-label="Reload site"
+        >
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-zinc-800 shrink-0 group-hover:scale-105 transition-transform duration-300">
             <img src="/profile.jpg" alt="Avatar" className="w-full h-full object-cover" />
           </div>
           <span className="text-white font-medium text-sm tracking-wide">Divya Patel</span>
-        </div>
+        </button>
 
         {/* Center Nav Pills — hidden on mobile */}
         <div className="hidden md:flex items-center gap-2 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-6 py-3 rounded-full">

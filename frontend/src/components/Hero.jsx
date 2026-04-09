@@ -1,7 +1,7 @@
-import React, { useRef, useState, useCallback } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
+import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 
-// Split text into individual letter spans for staggered 3D animation
+// ── Letter3D: reusable 3D stagger-animated character ──────────
 const Letter3D = ({ char, delay = 0, baseColor = 'text-white' }) => (
   <motion.span
     className={`inline-block ${baseColor}`}
@@ -24,10 +24,235 @@ const Letter3D = ({ char, delay = 0, baseColor = 'text-white' }) => (
   </motion.span>
 );
 
+// ── Holographic ID Badge ──────────────────────────────────────
+// Concept: a premium "access card" that the dev carries. The photo sits
+// inside a sleek badge with holographic prismatic reflections, a chip,
+// scan-line texture, and real-time mouse-driven tilt + light refraction.
+// Nothing circular, no orbits, no cliché shapes.
+
+const HoloBadge = () => {
+  const cardRef = useRef(null);
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+  const [scanned, setScanned] = useState(false);
+
+  // Spring-smoothed tilt angles
+  const tiltX = useSpring(useTransform(my, [0, 1], [12, -12]), { stiffness: 120, damping: 18 });
+  const tiltY = useSpring(useTransform(mx, [0, 1], [-12, 12]), { stiffness: 120, damping: 18 });
+
+  // Holographic gradient origin tracks mouse
+  const holoX = useTransform(mx, [0, 1], [0, 100]);
+  const holoY = useTransform(my, [0, 1], [0, 100]);
+
+  const handleMove = useCallback((e) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mx.set((e.clientX - rect.left) / rect.width);
+    my.set((e.clientY - rect.top) / rect.height);
+  }, [mx, my]);
+
+  const handleLeave = useCallback(() => {
+    mx.set(0.5);
+    my.set(0.5);
+  }, [mx, my]);
+
+  // Trigger "scan complete" after entry animation
+  useEffect(() => {
+    const t = setTimeout(() => setScanned(true), 4800);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="relative w-[280px] h-[380px] sm:w-[300px] sm:h-[410px] md:w-[320px] md:h-[440px] lg:w-[340px] lg:h-[470px] cursor-default"
+      initial={{ opacity: 0, scale: 0.7, rotateY: -30 }}
+      animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+      transition={{ duration: 1.2, delay: 3.3, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        perspective: 1200,
+        transformStyle: 'preserve-3d',
+      }}
+    >
+      <motion.div
+        className="w-full h-full relative"
+        style={{
+          rotateX: tiltX,
+          rotateY: tiltY,
+          transformStyle: 'preserve-3d',
+        }}
+      >
+        {/* ── Card body ── */}
+        <div className="absolute inset-0 rounded-[24px] bg-[#0c0c0c] border border-zinc-800/90 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
+
+          {/* Holographic prismatic overlay — moves with mouse */}
+          <motion.div
+            className="absolute inset-0 z-30 pointer-events-none mix-blend-overlay opacity-0 group-hover:opacity-100"
+            style={{
+              background: useTransform(
+                [holoX, holoY],
+                ([x, y]) =>
+                  `conic-gradient(from ${x * 3.6}deg at ${x}% ${y}%, 
+                    rgba(0,255,255,0.18), 
+                    rgba(181,153,255,0.18), 
+                    rgba(255,0,255,0.12), 
+                    rgba(204,255,0,0.15), 
+                    rgba(0,255,255,0.18))`
+              ),
+            }}
+          />
+
+          {/* Scan-line texture */}
+          <div
+            className="absolute inset-0 z-20 pointer-events-none opacity-[0.035]"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, transparent 3px)',
+            }}
+          />
+
+          {/* ── Top chip bar ── */}
+          <div className="relative z-10 flex items-center justify-between px-5 pt-5 pb-3">
+            {/* Chip */}
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-6 rounded-[4px] bg-gradient-to-br from-[#d4af37] via-[#f5e6a3] to-[#b8982b] shadow-inner relative overflow-hidden">
+                <div className="absolute inset-[2px] border border-[#a07a1a]/40 rounded-[2px]" />
+                <div className="absolute top-[3px] left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-[#a07a1a]/60" />
+                <div className="absolute bottom-[3px] left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-[#a07a1a]/60" />
+                <div className="absolute top-1/2 left-[3px] -translate-y-1/2 w-[1px] h-[60%] bg-[#a07a1a]/60" />
+                <div className="absolute top-1/2 right-[3px] -translate-y-1/2 w-[1px] h-[60%] bg-[#a07a1a]/60" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[8px] font-mono text-zinc-600 tracking-[0.25em] uppercase leading-none">DEV//</span>
+                <span className="text-[8px] font-mono text-zinc-700 tracking-[0.15em] uppercase leading-none">ACCESS</span>
+              </div>
+            </div>
+
+            {/* Status indicator */}
+            <div className="flex items-center gap-1.5">
+              <motion.div
+                className="w-1.5 h-1.5 rounded-full"
+                animate={{
+                  backgroundColor: scanned ? '#39FF14' : '#FF4444',
+                  boxShadow: scanned
+                    ? ['0 0 4px #39FF14', '0 0 12px #39FF14', '0 0 4px #39FF14']
+                    : '0 0 4px #FF4444',
+                }}
+                transition={{ duration: 1.5, repeat: scanned ? 0 : Infinity }}
+              />
+              <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
+                {scanned ? 'Verified' : 'Scanning'}
+              </span>
+            </div>
+          </div>
+
+          {/* ── Photo area ── */}
+          <div className="relative z-10 mx-5 mt-1 aspect-[4/3.4] rounded-[14px] overflow-hidden bg-zinc-900 group/photo">
+            {/* Initial scan sweep animation */}
+            <motion.div
+              className="absolute inset-0 z-30 pointer-events-none"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 0.3, delay: 4.6 }}
+            >
+              <motion.div
+                className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent-neon to-transparent shadow-[0_0_20px_rgba(0,255,255,0.8)]"
+                initial={{ top: '0%' }}
+                animate={{ top: ['0%', '100%', '0%'] }}
+                transition={{ duration: 1.8, delay: 3.5, times: [0, 0.5, 1] }}
+              />
+            </motion.div>
+
+            {/* Photo with reveal */}
+            <motion.img
+              src="/profile.jpg"
+              alt="Divya Patel"
+              className="w-full h-full object-cover object-top"
+              initial={{ filter: 'brightness(0) contrast(2)' }}
+              animate={{ filter: 'brightness(1) contrast(1)' }}
+              transition={{ duration: 1.5, delay: 4.2, ease: 'easeOut' }}
+            />
+
+            {/* Bottom-fade overlay  */}
+            <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#0c0c0c] to-transparent z-10" />
+
+            {/* Corner brackets on hover */}
+            <div className="absolute inset-3 pointer-events-none z-20 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-500">
+              <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-accent-neon/60" />
+              <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-accent-neon/60" />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-accent-neon/60" />
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-accent-neon/60" />
+            </div>
+          </div>
+
+          {/* ── Identity info ── */}
+          <div className="relative z-10 px-5 pt-4 pb-3 flex flex-col gap-2">
+            <div className="flex items-baseline justify-between">
+              <h3 className="text-white font-black text-lg tracking-tight">DIVYA PATEL</h3>
+              <span className="text-[9px] font-mono text-accent-neon tracking-widest">LVL ∞</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-accent-purple/40 text-accent-purple tracking-widest">
+                FULL STACK
+              </span>
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-accent-neon/30 text-accent-neon tracking-widest">
+                MERN
+              </span>
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-[#3776AB]/40 text-[#6ca6d9] tracking-widest">
+                PYTHON
+              </span>
+            </div>
+          </div>
+
+          {/* ── Bottom barcode strip ── */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-5 py-3 border-t border-zinc-800/50 flex items-center justify-between">
+            {/* Barcode-style decoration */}
+            <div className="flex items-end gap-[1px] h-4">
+              {[3,5,2,4,6,3,5,2,6,4,3,5,7,2,4,6,3,5,2,4,6,3,5,2,3,5,4,6,3,5].map((h, i) => (
+                <div
+                  key={i}
+                  className="w-[1.5px] bg-zinc-600/80 rounded-full"
+                  style={{ height: `${h * 2}px` }}
+                />
+              ))}
+            </div>
+            <span className="text-[8px] font-mono text-zinc-600 tracking-[0.2em]">
+              DP–{new Date().getFullYear()}–001
+            </span>
+          </div>
+
+          {/* ── Edge highlight on hover ── */}
+          <motion.div
+            className="absolute inset-0 rounded-[24px] pointer-events-none z-40"
+            style={{
+              boxShadow: useTransform(
+                [holoX, holoY],
+                ([x, y]) =>
+                  `inset 0 1px 1px rgba(255,255,255,${0.02 + Math.abs(y - 50) * 0.002}), 0 0 ${30 + x * 0.4}px rgba(0,255,255,${0.02 + x * 0.001})`
+              ),
+            }}
+          />
+        </div>
+
+        {/* ── Reflection plane beneath card ── */}
+        <div
+          className="absolute -bottom-4 left-4 right-4 h-12 rounded-[20px] blur-xl opacity-30"
+          style={{
+            background: 'linear-gradient(to right, rgba(0,255,255,0.15), rgba(181,153,255,0.12), rgba(204,255,0,0.1))',
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// ── Main Hero Component ──────────────────────────────────────
 const Hero = () => {
   const containerRef = useRef(null);
 
-  // Spring physics for smooth mouse tracking
+  // Spring physics for smooth mouse tracking (headlines)
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 });
   const mouseY = useSpring(0, { stiffness: 50, damping: 20 });
 
@@ -47,7 +272,6 @@ const Hero = () => {
   const handleMouseLeave = useCallback(() => {
     mouseX.set(0);
     mouseY.set(0);
-    setIsHovered(false);
   }, [mouseX, mouseY]);
 
   const line1 = 'FULL STACK'.split('');
@@ -59,7 +283,6 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center pt-24 pb-16 lg:pt-16 lg:pb-24 overflow-hidden bg-transparent z-10 w-full"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setIsHovered(true)}
     >
       <div
         className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16"
@@ -203,52 +426,10 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* Right 3D Image Column */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1, delay: 3.4 }}
-          className="relative flex justify-center items-center shrink-0 w-full lg:w-auto"
-        >
-          <motion.div
-            className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-[360px] lg:h-[360px]"
-            animate={{
-              y: [-12, 12, -12],
-              rotateX: [5, -5, 5],
-              rotateY: [-5, 5, -5]
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: 'easeInOut'
-            }}
-            style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
-          >
-            {/* Dynamic Ambient Shadow */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-accent-neon via-accent-purple to-accent-magenta blur-3xl opacity-20 hover:opacity-40 transition-opacity duration-700"></div>
-
-            {/* Glowing Orbit Rings */}
-            <motion.div
-              className="absolute -inset-3 sm:-inset-6 border border-accent-neon/30 rounded-full pointer-events-none"
-              animate={{ rotateZ: 360, rotateX: 20 }}
-              transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-            ></motion.div>
-            <motion.div
-              className="absolute -inset-6 sm:-inset-12 border border-accent-magenta/20 rounded-full pointer-events-none"
-              animate={{ rotateZ: -360, rotateY: 20 }}
-              transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-            ></motion.div>
-
-            {/* The Profile Image */}
-            <div className="absolute inset-0 rounded-full overflow-hidden border border-zinc-700 shadow-2xl bg-[#09090b] interactive cursor-pointer group">
-              <img
-                src="/profile.jpg"
-                alt="Divya Patel"
-                className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-700 group-hover:scale-105"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
+        {/* ── Right: Holographic ID Badge ── */}
+        <div className="relative flex justify-center items-center shrink-0 w-full lg:w-auto">
+          <HoloBadge />
+        </div>
       </div>
     </section>
   );

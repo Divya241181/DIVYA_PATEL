@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // ── Lines to type ──────────────────────────────────────────────
 const LINES = [
   "Welcome to the Developer's",
-  "Portfolio",
+  "Portfolio..."
 ];
 
 // Total chars across all lines (used for timing)
@@ -210,7 +210,7 @@ const Loader = ({ onLoadingComplete }) => {
               transition={{ duration: 0.4 }}
               className="font-mono text-[#e8e4d9] text-[10px] tracking-widest uppercase mt-10"
             >
-              Press any key to continue_
+              {/* Press any key to continue_ */}
             </motion.p>
           </div>
         </motion.div>
