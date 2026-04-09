@@ -13,9 +13,22 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setStatus('error');
+      return;
+    }
+    if (formData.message.length < 20) {
+      setStatus('error'); // Need a more specific error usually, but status is simple here.
+      return;
+    }
+
     setStatus('Sending...');
     try {
-      await axios.post('http://localhost:5000/api/contact', formData);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      await axios.post(`${apiUrl}/contact`, formData);
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {

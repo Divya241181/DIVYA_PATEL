@@ -184,7 +184,8 @@ const About = () => {
                 transition={{ duration: 0.7, delay: 0.6 }}
               >
                 <a
-                  href="#"
+                  href="/resume.pdf"
+                  download="Divya_Patel_Resume.pdf"
                   className="inline-flex items-center gap-4 bg-accent-lime text-black font-black px-8 py-4 rounded-full group hover:shadow-[0_0_40px_rgba(204,255,0,0.35)] hover:scale-105 transition-all duration-300 shadow-sm"
                 >
                   Download Resume

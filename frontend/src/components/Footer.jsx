@@ -31,7 +31,7 @@ const Footer = () => {
             {/* Follow Me Column */}
             <div className="flex flex-col gap-4">
               <h3 className="text-[#06b6d4] font-medium text-lg mb-2">Follow Me</h3>
-              <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
+              <a href="https://www.linkedin.com/in/divya-patel2411" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
                 <div className="w-6 h-6 rounded-full bg-[#0A66C2] flex items-center justify-center shrink-0">
                   <FaLinkedinIn className="text-white w-3 h-3" />
                 </div>
@@ -42,12 +42,6 @@ const Footer = () => {
                   <SiGithub className="text-black w-3.5 h-3.5" />
                 </div>
                 Github
-              </a>
-              <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
-                <div className="w-6 h-6 rounded-full bg-[#5865F2] flex items-center justify-center shrink-0">
-                  <SiDiscord className="text-white w-3 h-3" />
-                </div>
-                Discord
               </a>
             </div>
           </div>

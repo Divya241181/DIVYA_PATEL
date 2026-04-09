@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 200 && rect.bottom >= 200;
+        }
+        return false;
+      });
+      if (current) setActiveSection(current);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About Me' },
-    { href: '#skills', label: 'Tech Stack' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#home', id: 'home', label: 'Home' },
+    { href: '#about', id: 'about', label: 'About Me' },
+    { href: '#skills', id: 'skills', label: 'Tech Stack' },
+    { href: '#projects', id: 'projects', label: 'Projects' },
+    { href: '#contact', id: 'contact', label: 'Contact' },
   ];
 
   return (
@@ -30,19 +51,19 @@ const Navbar = () => {
         {/* Center Nav Pills — hidden on mobile */}
         <div className="hidden md:flex items-center gap-2 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-6 py-3 rounded-full">
           <a href="#home" className="group button-calypso text-sm px-4 py-1.5 transition-colors duration-300" style={{ '--hover-bg': '#B599FF' }}>
-             <span className="calypso-text flex items-center gap-2 font-medium text-zinc-400 group-hover:text-black transition-colors duration-300">
+             <span className={`calypso-text flex items-center gap-2 font-medium transition-colors duration-300 ${activeSection === 'home' ? 'text-white' : 'text-zinc-400 group-hover:text-black'}`}>
                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                Home
              </span>
           </a>
           <a href="#projects" className="group button-calypso text-sm px-4 py-1.5 transition-colors duration-300" style={{ '--hover-bg': '#FFD700' }}>
-             <span className="calypso-text flex items-center gap-2 font-medium text-zinc-400 group-hover:text-black transition-colors duration-300">
+             <span className={`calypso-text flex items-center gap-2 font-medium transition-colors duration-300 ${activeSection === 'projects' ? 'text-white' : 'text-zinc-400 group-hover:text-black'}`}>
                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                My Projects
              </span>
           </a>
           <a href="#about" className="group button-calypso text-sm px-4 py-1.5 transition-colors duration-300" style={{ '--hover-bg': '#00FFFF' }}>
-             <span className="calypso-text flex items-center gap-2 font-medium text-zinc-400 group-hover:text-black transition-colors duration-300">
+             <span className={`calypso-text flex items-center gap-2 font-medium transition-colors duration-300 ${activeSection === 'about' ? 'text-white' : 'text-zinc-400 group-hover:text-black'}`}>
                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                About Me
              </span>

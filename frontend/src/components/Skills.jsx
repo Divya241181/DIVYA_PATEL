@@ -27,7 +27,7 @@ const techCategories = [
       { name: 'Framer Motion', pct: 80 },
       { name: 'Figma / UI Design', pct: 75 },
     ],
-    tags: ['Next.js', 'TypeScript', 'Three.js', 'UI/UX', 'Responsive'],
+    tags: ['Next.js', 'UI/UX', 'Responsive', 'Web Animations'],
     span: 'lg:col-span-7',
   },
   {
@@ -49,7 +49,7 @@ const techCategories = [
       { name: 'Python / Django', pct: 72 },
       { name: 'REST API Design', pct: 88 },
     ],
-    tags: ['REST API', 'JWT Auth', 'Firebase', 'GraphQL'],
+    tags: ['REST API', 'JWT Auth', 'Firebase', 'Redis'],
     span: 'lg:col-span-5',
   },
   {

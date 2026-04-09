@@ -26,7 +26,6 @@ const Letter3D = ({ char, delay = 0, baseColor = 'text-white' }) => (
 
 const Hero = () => {
   const containerRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   // Spring physics for smooth mouse tracking
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 });

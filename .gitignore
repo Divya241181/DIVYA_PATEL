@@ -12,6 +12,7 @@ backend/dist/
 .env
 .env.local
 backend/.env
+frontend/.env
 
 # OS files
 .DS_Store
@@ -29,3 +30,4 @@ build_error_utf8.txt
 error.txt
 error8.txt
 t.js
+*.exe

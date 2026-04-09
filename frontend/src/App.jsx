@@ -39,14 +39,17 @@ function App() {
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => link.addEventListener('click', handleAnchorClick));
 
+    let rafId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
       links.forEach(link => link.removeEventListener('click', handleAnchorClick));
     };
