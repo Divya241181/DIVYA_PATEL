@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, animate, useInView, useMotionValue, useTransform } from 'framer-motion';
-import { RevealBlock } from './RevealText';
 import { GitHubCalendar } from 'react-github-calendar';
 import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiFigma, SiSpotify, SiPython, SiDjango } from 'react-icons/si';
 
@@ -35,7 +34,7 @@ const Badge = ({ icon, text }) => (
 
 const AnimatedNumber = ({ value, className }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
 
@@ -83,7 +82,7 @@ const About = () => {
                 <motion.h2 
                   initial={{ y: "100%" }}
                   whileInView={{ y: 0 }}
-                  viewport={{ once: false, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   className="text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-white leading-[0.85] font-heading m-0"
                 >
@@ -94,7 +93,7 @@ const About = () => {
                 <motion.h2 
                   initial={{ y: "100%" }}
                   whileInView={{ y: 0 }}
-                  viewport={{ once: false, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                   className="text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-transparent font-heading bg-clip-text bg-gradient-to-r from-accent-purple to-accent-magenta leading-[0.85] m-0"
                 >
@@ -105,7 +104,7 @@ const About = () => {
                 <motion.h2 
                   initial={{ y: "100%" }}
                   whileInView={{ y: 0 }}
-                  viewport={{ once: false, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                   className="text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-transparent font-heading bg-clip-text bg-gradient-to-r from-accent-lime to-accent-neon leading-[0.85] m-0"
                 >
@@ -121,7 +120,7 @@ const About = () => {
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, margin: '-80px' }}
+              viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="p-7 md:p-8 rounded-[24px] bg-zinc-950/80 border border-zinc-800/80 hover:border-accent-neon/40 relative overflow-hidden group/bio cursor-default transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,255,255,0.06)]"
             >
@@ -153,7 +152,7 @@ const About = () => {
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.3 + i * 0.1 }}
                     className="flex flex-col gap-1 p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/60 hover:border-zinc-700/80 transition-colors duration-300"
                   >
@@ -169,21 +168,17 @@ const About = () => {
 
               {/* Rich bio paragraph */}
               <div className="relative z-10 space-y-4 mb-8">
-                <RevealBlock>
-                  <p className="text-zinc-400 text-lg leading-[1.9] font-light">
-                    Currently pursuing a{' '}
-                    <span className="text-white font-semibold">B.Tech in Information Technology</span>{' '}
-                    at KPGU. I build robust applications that combine{' '}
-                    <span className="text-accent-purple font-semibold">clean architecture</span>{' '}
-                    with deeply immersive,{' '}
-                    <span className="text-accent-neon font-semibold">award-worthy frontends</span>.
-                  </p>
-                </RevealBlock>
-                <RevealBlock delay={0.1}>
-                  <p className="text-zinc-500 text-sm leading-relaxed font-light">
-                    My stack lives in the JavaScript ecosystem — React, Node.js, MongoDB — with a strong eye for motion design and user experience that goes beyond the ordinary.
-                  </p>
-                </RevealBlock>
+                <p className="text-zinc-400 text-lg leading-[1.9] font-light">
+                  Currently pursuing a{' '}
+                  <span className="text-white font-semibold">B.Tech in Information Technology</span>{' '}
+                  at KPGU. I build robust applications that combine{' '}
+                  <span className="text-accent-purple font-semibold">clean architecture</span>{' '}
+                  with deeply immersive,{' '}
+                  <span className="text-accent-neon font-semibold">award-worthy frontends</span>.
+                </p>
+                <p className="text-zinc-500 text-sm leading-relaxed font-light">
+                  My stack lives in the JavaScript ecosystem — React, Node.js, MongoDB — with a strong eye for motion design and user experience that goes beyond the ordinary.
+                </p>
               </div>
 
               {/* Skill tags */}
@@ -202,7 +197,7 @@ const About = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.6 }}
                 className="relative z-10"
               >
@@ -226,7 +221,7 @@ const About = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
                 className="flex items-center gap-3 mb-10"
               >
@@ -243,7 +238,7 @@ const About = () => {
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.3 }}
                   className="relative mb-6 group"
                 >
@@ -264,14 +259,10 @@ const About = () => {
                         </span>
                         <span className="text-xs text-zinc-600 font-mono">· Current</span>
                       </div>
-                      <RevealBlock>
-                        <h4 className="text-white font-black text-2xl md:text-3xl tracking-tight group-hover:text-accent-magenta transition-colors duration-300 mb-1">
-                          B.Tech — Information Tech.
-                        </h4>
-                      </RevealBlock>
-                      <RevealBlock delay={0.08}>
-                        <p className="text-zinc-500 text-sm font-medium">Drs. Kiran &amp; Pallavi Patel Global University</p>
-                      </RevealBlock>
+                      <h4 className="text-white font-black text-2xl md:text-3xl tracking-tight group-hover:text-accent-magenta transition-colors duration-300 mb-1">
+                        B.Tech — Information Tech.
+                      </h4>
+                      <p className="text-zinc-500 text-sm font-medium">Drs. Kiran &amp; Pallavi Patel Global University</p>
                       <div className="flex flex-wrap gap-2 mt-4">
                         {['Full Stack Dev', 'DSA', 'AI/ML', 'DBMS'].map(t => (
                           <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">{t}</span>
@@ -285,7 +276,7 @@ const About = () => {
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.45 }}
                   className="relative group"
                 >
@@ -306,14 +297,10 @@ const About = () => {
                         </span>
                         <span className="text-xs text-zinc-600 font-mono">· Completed</span>
                       </div>
-                      <RevealBlock>
-                        <h4 className="text-white font-black text-2xl md:text-3xl tracking-tight group-hover:text-accent-lime transition-colors duration-300 mb-1">
-                          Higher Secondary (Science)
-                        </h4>
-                      </RevealBlock>
-                      <RevealBlock delay={0.08}>
-                        <p className="text-zinc-500 text-sm font-medium">Krishna School of Science</p>
-                      </RevealBlock>
+                      <h4 className="text-white font-black text-2xl md:text-3xl tracking-tight group-hover:text-accent-lime transition-colors duration-300 mb-1">
+                        Higher Secondary (Science)
+                      </h4>
+                      <p className="text-zinc-500 text-sm font-medium">Krishna School of Science</p>
                       <div className="flex flex-wrap gap-2 mt-4">
                         {['Physics', 'Chemistry', 'Maths', 'Computer Sc.'].map(t => (
                           <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">{t}</span>
@@ -491,18 +478,18 @@ const About = () => {
               
               {/* Massive background number */}
               <div className="absolute -right-4 top-1/2 -translate-y-1/2 pointer-events-none select-none">
-                <AnimatedNumber value={142} className="text-[12rem] font-bold text-zinc-800/20" />
+                <AnimatedNumber value={67} className="text-[12rem] font-bold text-zinc-800/20" />
               </div>
 
               <div className="relative z-10 mt-4">
                 <div className="flex items-end gap-2 text-white">
-                  <AnimatedNumber value={142} className="text-6xl font-semibold leading-none tracking-tight group-hover:text-accent-neon transition-colors duration-500" />
+                  <AnimatedNumber value={67} className="text-6xl font-semibold leading-none tracking-tight group-hover:text-accent-neon transition-colors duration-500" />
                   <span className="text-xl text-zinc-400 mb-1">wpm</span>
                 </div>
                 
                 <div className="flex gap-4 mt-6 text-zinc-500 text-xs font-mono font-medium">
                   <span className="flex items-center gap-1">⏱ 15s</span>
-                  <span className="flex items-center gap-1">🎯 100%</span>
+                  <span className="flex items-center gap-1">🎯 95%</span>
                   <span className="flex items-center gap-1">A EN</span>
                 </div>
               </div>

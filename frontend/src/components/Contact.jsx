@@ -7,7 +7,7 @@ const Contact = () => {
   const [status, setStatus] = useState('');
   const [focused, setFocused] = useState(null);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 

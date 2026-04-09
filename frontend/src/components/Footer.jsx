@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { SiBehance, SiDribbble, SiDiscord, SiGithub } from 'react-icons/si';
 import { FaLinkedinIn } from 'react-icons/fa';
-import RevealBlock from './RevealText';
 
 const Footer = () => {
   return (
@@ -14,11 +13,9 @@ const Footer = () => {
           
           {/* Left: Headline */}
           <div className="lg:col-span-5">
-            <RevealBlock delay={0.1}>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium leading-snug max-w-[300px] font-heading">
-                Where <span className="text-[#d946ef]">aesthetics</span> &{' '}<br/><span className="text-[#06b6d4]">functionality</span> meet
-              </h2>
-            </RevealBlock>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium leading-snug max-w-[300px] font-heading">
+              Where <span className="text-[#d946ef]">aesthetics</span> &{' '}<br/><span className="text-[#06b6d4]">functionality</span> meet
+            </h2>
           </div>
 
           {/* Middle: Links */}

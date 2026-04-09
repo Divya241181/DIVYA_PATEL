@@ -57,12 +57,12 @@ function App() {
 
   return (
     <>
-      <Cursor />
       <AnimatePresence>
         {loading && <Loader onLoadingComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
       <div className={`min-h-screen transition-opacity duration-1000 ${loading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
+        <Cursor />
         <Navbar />
         <main>
           <Hero />

@@ -252,13 +252,6 @@ const HoloBadge = () => {
 // ── Main Hero Component ──────────────────────────────────────
 const Hero = () => {
   const containerRef = useRef(null);
-  const [initialAnimDone, setInitialAnimDone] = useState(false);
-
-  // After all load animations complete, switch paragraph to scroll-triggered mode
-  useEffect(() => {
-    const t = setTimeout(() => setInitialAnimDone(true), 5000);
-    return () => clearTimeout(t);
-  }, []);
 
   // Spring physics for smooth mouse tracking (headlines)
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 });
@@ -352,15 +345,12 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Animated Paragraph — bi-directional scroll-triggered text arrival */}
-          <div className="mt-6 md:mt-10 max-w-xl mx-auto lg:mx-0 relative z-10 overflow-hidden">
+          {/* Animated Paragraph */}
           <motion.div
-            initial={{ y: '100%', opacity: 0 }}
-            {...(initialAnimDone
-              ? { whileInView: { y: '0%', opacity: 1 }, viewport: { once: false, amount: 0.2 } }
-              : { animate: { y: '0%', opacity: 1 } }
-            )}
-            transition={{ duration: 0.85, delay: initialAnimDone ? 0 : 3.7, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 3.7 }}
+            className="mt-6 md:mt-10 max-w-xl mx-auto lg:mx-0 relative z-10"
           >
             <p className="text-base md:text-lg lg:text-xl text-zinc-400 font-medium leading-relaxed">
               Engineering high-performance{' '}
@@ -382,7 +372,6 @@ const Hero = () => {
               digital solutions.
             </p>
           </motion.div>
-          </div>
 
           {/* CTA Buttons */}
           <motion.div
