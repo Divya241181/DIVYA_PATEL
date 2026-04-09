@@ -5,22 +5,21 @@ import { FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="mt-32 px-4 md:px-8 pb-8 z-10 relative">
-      {/* Boxed Container */}
-      <div className="max-w-[1400px] mx-auto bg-[#09090b] border border-zinc-800 rounded-[32px] overflow-hidden flex flex-col">
+    <footer className="mt-16 md:mt-32 w-full z-10 relative pt-8 md:pt-12">
+      <div className="max-w-[1400px] mx-auto flex flex-col px-4 md:px-8">
         
         {/* Top Content Area */}
-        <div className="p-8 md:p-12 lg:p-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 border-t border-zinc-800/50 pt-10 md:pt-16">
           
           {/* Left: Headline */}
           <div className="lg:col-span-5">
-            <h2 className="text-3xl md:text-3xl lg:text-4xl text-white font-medium leading-snug max-w-[280px]">
-              Where <span className="text-[#d946ef]">aesthetics</span> & <br/><span className="text-[#06b6d4]">functionality</span> meet
+            <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-medium leading-snug max-w-[300px]">
+              Where <span className="text-[#d946ef]">aesthetics</span> &{' '}<br/><span className="text-[#06b6d4]">functionality</span> meet
             </h2>
           </div>
 
           {/* Middle: Links */}
-          <div className="lg:col-span-4 grid grid-cols-2 gap-8 lg:gap-12 pl-0 lg:pl-10">
+          <div className="lg:col-span-4 grid grid-cols-2 gap-8 lg:gap-12 lg:pl-10">
             {/* Explore Column */}
             <div className="flex flex-col gap-4">
               <h3 className="text-[#f97316] font-medium text-lg mb-2">Explore</h3>
@@ -38,17 +37,17 @@ const Footer = () => {
                 </div>
                 LinkedIn
               </a>
+              <a href="https://github.com/Divya241181" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
+                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
+                  <SiGithub className="text-black w-3.5 h-3.5" />
+                </div>
+                Github
+              </a>
               <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
                 <div className="w-6 h-6 rounded-full bg-[#5865F2] flex items-center justify-center shrink-0">
                   <SiDiscord className="text-white w-3 h-3" />
                 </div>
                 Discord
-              </a>
-              <a href="#" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
-                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
-                  <SiGithub className="text-black w-3.5 h-3.5" />
-                </div>
-                Github
               </a>
             </div>
           </div>
@@ -58,7 +57,7 @@ const Footer = () => {
             <a href="#contact" className="group flex items-center justify-between pb-6 border-b border-zinc-800 cursor-pointer">
                <div>
                  <h4 className="text-lg text-white font-medium group-hover:text-accent-lime transition-colors">Contact Me</h4>
-                 <p className="text-zinc-500 text-xs mt-1">Say Hello !</p>
+                 <p className="text-zinc-500 text-xs mt-1">Say Hello!</p>
                </div>
                <div className="w-9 h-9 rounded-full border border-zinc-700 flex items-center justify-center group-hover:border-accent-lime transition-colors shrink-0">
                  <ArrowRight className="text-accent-lime w-4 h-4 transform transition-transform duration-300" />
@@ -79,12 +78,12 @@ const Footer = () => {
         </div>
 
         {/* Massive Typography */}
-        <div className="w-full px-6 flex flex-col items-center justify-end overflow-hidden pt-12 md:pt-16 pb-0">
+        <div className="w-full flex flex-col items-center justify-end overflow-hidden pt-16 md:pt-28 pb-0">
            <svg 
              className="w-full h-auto text-[#FDFFE6] hover:text-white transition-colors duration-500 select-none cursor-default" 
              viewBox="0 0 1000 180" 
              preserveAspectRatio="none"
-             style={{ transform: 'scale(1.09, 1.6)', transformOrigin: 'bottom center', marginBottom: '-0.5%' }}
+             style={{ transform: 'scale(1.08, 1.6)', transformOrigin: 'bottom center', marginBottom: '-0.5%' }}
            >
              <text 
                x="50%" 
@@ -96,14 +95,14 @@ const Footer = () => {
                fontSize="200"
                fill="currentColor"
              >
-               DIVYAPATEL
+               Divya Patel
              </text>
            </svg>
         </div>
 
         {/* Bottom Bar */}
-        <div className="px-6 md:px-12 py-5 flex flex-col sm:flex-row justify-between items-center gap-4 text-zinc-500 font-medium text-[11px] uppercase tracking-widest border-t border-zinc-800/80 mt-0 relative z-20 bg-[#09090b]">
-           <p>Divya Patel ©2025 - Privacy Policy</p>
+        <div className="py-5 mb-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-zinc-500 font-medium text-[11px] uppercase tracking-widest border-t border-zinc-800/80 mt-0 relative z-20">
+           <p>Divya Patel ©2026 - Privacy Policy</p>
            <p>Gujarat, India</p>
         </div>
 
