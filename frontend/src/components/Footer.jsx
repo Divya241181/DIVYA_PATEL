@@ -23,21 +23,21 @@ const Footer = () => {
             {/* Explore Column */}
             <div className="flex flex-col gap-4">
               <h3 className="text-[#f97316] font-medium text-lg mb-2">Explore</h3>
-              <a href="#home" className="text-zinc-300 hover:text-white hover:translate-x-1 transition-all text-sm font-medium">Home</a>
-              <a href="#about" className="text-zinc-300 hover:text-white hover:translate-x-1 transition-all text-sm font-medium">About Me</a>
-              <a href="#contact" className="text-zinc-300 hover:text-white hover:translate-x-1 transition-all text-sm font-medium">Contact</a>
+              <a href="#home" className="text-zinc-300 hover:text-accent-lime hover:translate-x-1 transition-all text-sm font-medium">Home</a>
+              <a href="#about" className="text-zinc-300 hover:text-accent-purple hover:translate-x-1 transition-all text-sm font-medium">About Me</a>
+              <a href="#contact" className="text-zinc-300 hover:text-[#F24E1E] hover:translate-x-1 transition-all text-sm font-medium">Contact</a>
             </div>
 
             {/* Follow Me Column */}
             <div className="flex flex-col gap-4">
               <h3 className="text-[#06b6d4] font-medium text-lg mb-2">Follow Me</h3>
-              <a href="https://www.linkedin.com/in/divya-patel2411" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
+              <a href="https://www.linkedin.com/in/divya-patel2411" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-zinc-300 hover:text-[#0A66C2] hover:translate-x-1 transition-all group text-sm font-medium">
                 <div className="w-6 h-6 rounded-full bg-[#0A66C2] flex items-center justify-center shrink-0">
                   <FaLinkedinIn className="text-white w-3 h-3" />
                 </div>
                 LinkedIn
               </a>
-              <a href="https://github.com/Divya241181" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-zinc-300 hover:text-white hover:translate-x-1 transition-all group text-sm font-medium">
+              <a href="https://github.com/Divya241181" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-zinc-300 hover:text-accent-neon hover:translate-x-1 transition-all group text-sm font-medium">
                 <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
                   <SiGithub className="text-black w-3.5 h-3.5" />
                 </div>
@@ -50,21 +50,21 @@ const Footer = () => {
           <div className="lg:col-span-3 flex flex-col justify-start">
             <a href="#contact" className="group flex items-center justify-between pb-6 border-b border-zinc-800 cursor-pointer">
                <div>
-                 <h4 className="text-lg text-white font-medium group-hover:text-accent-lime transition-colors">Contact Me</h4>
+                 <h4 className="text-lg text-white font-medium group-hover:text-accent-neon transition-colors">Contact Me</h4>
                  <p className="text-zinc-500 text-xs mt-1">Say Hello!</p>
                </div>
-               <div className="w-9 h-9 rounded-full border border-zinc-700 flex items-center justify-center group-hover:border-accent-lime transition-colors shrink-0">
-                 <ArrowRight className="text-accent-lime w-4 h-4 transform transition-transform duration-300" />
+               <div className="w-9 h-9 rounded-full border border-zinc-700 flex items-center justify-center group-hover:border-accent-neon transition-colors shrink-0">
+                 <ArrowRight className="text-zinc-400 group-hover:text-accent-neon w-4 h-4 transform transition-colors duration-300" />
                </div>
             </a>
             
             <a href="#projects" className="group flex items-center justify-between pt-6 text-white cursor-pointer">
                <div>
-                 <h4 className="text-lg text-white font-medium group-hover:text-accent-lime transition-colors">My Projects</h4>
+                 <h4 className="text-lg text-white font-medium group-hover:text-accent-purple transition-colors">My Projects</h4>
                  <p className="text-zinc-500 text-xs mt-1">Explore Projects</p>
                </div>
-               <div className="w-9 h-9 rounded-full border border-zinc-700 flex items-center justify-center group-hover:border-accent-lime transition-colors shrink-0">
-                 <ArrowRight className="text-accent-lime w-4 h-4 transform transition-transform duration-300" />
+               <div className="w-9 h-9 rounded-full border border-zinc-700 flex items-center justify-center group-hover:border-accent-purple transition-colors shrink-0">
+                 <ArrowRight className="text-zinc-400 group-hover:text-accent-purple w-4 h-4 transform transition-colors duration-300" />
                </div>
             </a>
           </div>

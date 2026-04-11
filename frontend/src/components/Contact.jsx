@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -8,6 +8,15 @@ const Contact = () => {
   const [focused, setFocused] = useState(null);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
+  useEffect(() => {
+    if (status && status !== 'Sending...') {
+      const timer = setTimeout(() => {
+        setStatus('');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -17,11 +26,11 @@ const Contact = () => {
     // Validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setStatus('error');
+      setStatus('invalid_email');
       return;
     }
-    if (formData.message.length < 20) {
-      setStatus('error'); // Need a more specific error usually, but status is simple here.
+    if (formData.message.trim().length < 10) {
+      setStatus('invalid_length');
       return;
     }
 
@@ -46,7 +55,7 @@ const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-24 md:py-40 px-4 overflow-hidden"
+      className="relative py-10 md:py-24 px-4 overflow-hidden"
     >
       {/* Layered background ambience */}
       <div className="absolute inset-0 pointer-events-none -z-10">
@@ -65,7 +74,7 @@ const Contact = () => {
       <div className="max-w-[1100px] mx-auto">
 
         {/* ── Section Header ── */}
-        <div className="mb-16 md:mb-24 overflow-hidden">
+        <div className="mb-8 md:mb-14 overflow-hidden">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -235,40 +244,68 @@ const Contact = () => {
                 className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2"
               >
                 {/* Status message */}
-                <div className="h-5 flex items-center">
-                  {status === 'success' && (
-                    <motion.p
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="text-[#39FF14] font-mono text-xs tracking-widest flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14] inline-block" />
-                      Message sent — I'll be in touch!
-                    </motion.p>
-                  )}
-                  {status === 'error' && (
-                    <motion.p
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="text-red-400 font-mono text-xs tracking-widest flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-400 inline-block" />
-                      Something went wrong. Try again.
-                    </motion.p>
-                  )}
+                <div className="h-5 flex items-center relative min-w-[250px]">
+                  <AnimatePresence mode="wait">
+                    {status === 'success' && (
+                      <motion.p
+                        key="success"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                        className="text-[#39FF14] font-mono text-xs tracking-widest flex items-center gap-2 absolute"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#39FF14] inline-block" />
+                        Message sent — I'll be in touch!
+                      </motion.p>
+                    )}
+                    {status === 'invalid_length' && (
+                      <motion.p
+                        key="invalid_length"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                        className="text-amber-400 font-mono text-xs tracking-widest flex items-center gap-2 absolute"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                        Message must be at least 10 characters.
+                      </motion.p>
+                    )}
+                    {status === 'invalid_email' && (
+                      <motion.p
+                        key="invalid_email"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                        className="text-amber-400 font-mono text-xs tracking-widest flex items-center gap-2 absolute"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                        Please enter a valid email address.
+                      </motion.p>
+                    )}
+                    {status === 'error' && (
+                      <motion.p
+                        key="error"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                        className="text-red-400 font-mono text-xs tracking-widest flex items-center gap-2 absolute"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-400 inline-block" />
+                        Server disconnected or CORS issue. Try again.
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Submit Button */}
                 <motion.button
                   type="submit"
                   disabled={status === 'Sending...'}
-                  whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
-                  className="relative group w-full sm:w-auto overflow-hidden bg-white text-black px-10 py-4 rounded-full font-black text-sm uppercase tracking-widest disabled:opacity-50 flex items-center justify-center gap-3 shadow-lg hover:shadow-[0_0_30px_rgba(181,153,255,0.4)] transition-shadow duration-500"
+                  className="group button-calypso w-full sm:w-auto bg-white text-black px-10 py-4 font-black text-sm uppercase tracking-widest disabled:opacity-50 shadow-lg hover:shadow-[0_0_30px_rgba(181,153,255,0.4)] transition-shadow duration-500 cursor-pointer"
+                  style={{ '--hover-bg': '#F24E1E' }}
                 >
-                  {/* Hover fill */}
-                  <span className="absolute inset-0 bg-accent-purple translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-                  <span className="relative z-10 group-hover:text-white transition-colors duration-300 flex items-center gap-3">
+                  <span className="calypso-text flex items-center justify-center gap-3 group-hover:text-white transition-colors duration-300">
                     {status === 'Sending...' ? (
                       <>
                         <motion.span

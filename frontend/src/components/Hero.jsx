@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 
 // ── Word-level slide-up animation with elastic spring ──────────
-const AnimatedWord = ({ word, delay = 0, className = '' }) => (
+const AnimatedWord = ({ word, delay = 0, className = '', hoverColor = '#00FFFF' }) => (
   <span className="inline-block overflow-hidden">
     <motion.span
       className={`inline-block ${className}`}
@@ -15,7 +15,8 @@ const AnimatedWord = ({ word, delay = 0, className = '' }) => (
       }}
       whileHover={{
         y: -6,
-        color: '#ccff00',
+        color: hoverColor,
+        textShadow: `0 0 20px ${hoverColor}60`,
         transition: { duration: 0.2 }
       }}
       style={{ display: 'inline-block' }}
@@ -68,7 +69,7 @@ const HoloBadge = () => {
       ref={cardRef}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      className="relative w-[280px] h-[380px] sm:w-[300px] sm:h-[410px] md:w-[320px] md:h-[440px] lg:w-[340px] lg:h-[470px] cursor-default"
+      className="relative w-[280px] h-[380px] sm:w-[280px] sm:h-[380px] md:w-[290px] md:h-[390px] lg:w-[300px] lg:h-[400px] cursor-default"
       initial={{ opacity: 0, scale: 0.7, rotateY: -30 }}
       animate={{ opacity: 1, scale: 1, rotateY: 0 }}
       transition={{ duration: 1.2, delay: 3.3, ease: [0.16, 1, 0.3, 1] }}
@@ -278,23 +279,23 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 lg:pt-16 lg:pb-24 overflow-hidden bg-transparent z-10 w-full"
+      className="relative min-h-screen flex items-start lg:items-center justify-center pt-2 pb-4 lg:pt-4 lg:pb-12 overflow-hidden bg-transparent z-10 w-full"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-6"
+        className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-6"
         ref={containerRef}
       >
         {/* Left Typography Column */}
-        <div className="flex-1 flex flex-col justify-center text-center lg:text-left w-full lg:max-w-[60%] xl:max-w-[65%]">
+        <div className="flex-1 flex flex-col justify-center text-left w-full lg:max-w-[60%] xl:max-w-[65%]">
 
           {/* Intro Tag — subtle slide in */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 2.9 }}
-            className="flex items-center justify-center lg:justify-start gap-4 mb-6 md:mb-8"
+            className="flex items-center justify-start gap-4 mb-4 md:mb-6"
           >
             <div className="w-8 md:w-12 h-[1px] bg-zinc-600"></div>
             <span className="text-zinc-400 font-light tracking-widest uppercase text-xs md:text-sm">Hello, I'm Divya Patel</span>
@@ -315,28 +316,28 @@ const Hero = () => {
               className="font-heading block"
               style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase text-white block mb-1">
-                <AnimatedWord word="FULL" delay={3.0} />
+              <div className="text-[11.5vw] sm:text-[10vw] lg:text-[6rem] xl:text-[7rem] font-black leading-[0.85] tracking-tighter uppercase text-white block mb-1">
+                <AnimatedWord word="FULL" delay={3.0} hoverColor="#00FFFF" />
                 <span className="inline-block w-[0.3em]" />
-                <AnimatedWord word="STACK" delay={3.15} />
+                <AnimatedWord word="STACK" delay={3.15} hoverColor="#B599FF" />
               </div>
 
               {/* Line 2: WEB DEV — elastic slide-up + shimmer gradient */}
               <motion.div
-                className="text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase block text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta"
+                className="text-[11.5vw] sm:text-[10vw] lg:text-[6rem] xl:text-[7rem] font-black leading-[0.85] tracking-tighter uppercase block text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta"
                 style={{ backgroundSize: '200% auto' }}
                 animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
                 transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
               >
-                <AnimatedWord word="WEB" delay={3.3} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" />
+                <AnimatedWord word="WEB" delay={3.3} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" hoverColor="#FF00FF" />
                 <span className="inline-block w-[0.3em]" />
-                <AnimatedWord word="DEV" delay={3.45} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" />
+                <AnimatedWord word="DEV" delay={3.45} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" hoverColor="#CCFF00" />
               </motion.div>
             </div>
 
             {/* Subtle 3D depth layer — ghost copy shifted back in Z */}
             <div
-              className="absolute inset-0 text-[13vw] sm:text-[10vw] lg:text-[7rem] xl:text-[8rem] font-black leading-[0.85] tracking-tighter uppercase pointer-events-none select-none opacity-[0.04] text-accent-neon blur-[1px] font-heading"
+              className="absolute inset-0 text-[11.5vw] sm:text-[10vw] lg:text-[6rem] xl:text-[7rem] font-black leading-[0.85] tracking-tighter uppercase pointer-events-none select-none opacity-[0.04] text-accent-neon blur-[1px] font-heading"
               style={{ transform: 'translateZ(-40px)', transformStyle: 'preserve-3d' }}
               aria-hidden
             >
@@ -350,7 +351,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 3.7 }}
-            className="mt-6 md:mt-10 max-w-xl mx-auto lg:mx-0 relative z-10"
+            className="mt-4 md:mt-6 max-w-xl mx-auto lg:mx-0 relative z-10"
           >
             <p className="text-base md:text-lg lg:text-xl text-zinc-400 font-medium leading-relaxed">
               Engineering high-performance{' '}
@@ -378,7 +379,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 3.9 }}
-            className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4"
+            className="mt-5 flex flex-wrap items-center justify-center lg:justify-start gap-4"
           >
             <motion.a
               href="#projects"

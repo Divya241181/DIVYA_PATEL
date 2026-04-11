@@ -106,7 +106,7 @@ const SkillBar = ({ name, pct, accent, delay }) => (
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-24 relative overflow-hidden bg-transparent">
+    <section id="skills" className="pt-10 md:pt-20 pb-5 md:pb-10 relative overflow-hidden bg-transparent">
       {/* Ambient auras */}
       <div className="absolute top-[10%] left-[-15%] w-[55vw] h-[55vw] bg-accent-neon/4 rounded-full blur-[150px] pointer-events-none -z-10" />
       <div className="absolute bottom-[10%] right-[-15%] w-[45vw] h-[45vw] bg-accent-purple/5 rounded-full blur-[150px] pointer-events-none -z-10" />
@@ -115,10 +115,6 @@ const Skills = () => {
 
         {/* ── Section Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-14"
         >
           <div className="w-12 h-[1px] bg-zinc-600" />
@@ -130,12 +126,8 @@ const Skills = () => {
         {/* ── Bento Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           {techCategories.map((cat, ci) => (
-            <motion.div
+            <div
               key={cat.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.15 }}
-              transition={{ duration: 0.7, delay: ci * 0.12, ease: [0.16, 1, 0.3, 1] }}
               className={`${cat.span} group relative rounded-[28px] border border-zinc-800/80 bg-zinc-950/70 backdrop-blur-xl overflow-hidden cursor-default transition-all duration-500 hover:border-current`}
               style={{ '--hover-color': cat.accent }}
             >
@@ -242,13 +234,13 @@ const Skills = () => {
                 )}
 
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
 
       {/* ── Marquee Belt ── */}
-      <div className="relative mt-24">
+      <div className="relative mt-10 md:mt-20 lg:mt-24">
         <div
           className="flex overflow-hidden w-full h-36 md:h-44 items-center bg-zinc-950/60 border-y border-zinc-800/50 rotate-[-1.5deg] scale-105"
           style={{

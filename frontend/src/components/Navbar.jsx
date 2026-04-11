@@ -107,31 +107,33 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-6 md:hidden overflow-y-auto pt-24 pb-10"
           >
-            {navLinks.map((link, i) => (
+            <div className="flex flex-col items-center justify-center w-full min-h-full gap-8 my-auto">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08 }}
+                  className="text-4xl font-black uppercase tracking-tighter text-zinc-400 font-heading hover:text-white transition-colors"
+                >
+                  {link.label}
+                </motion.a>
+              ))}
               <motion.a
-                key={link.href}
-                href={link.href}
+                href="#contact"
                 onClick={() => setMenuOpen(false)}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                className="text-4xl font-black uppercase tracking-tighter text-zinc-400 font-heading hover:text-white transition-colors"
+                transition={{ delay: 0.5 }}
+                className="mt-2 px-10 py-4 bg-accent-lime text-black font-black text-lg rounded-full uppercase tracking-wider shrink-0"
               >
-                {link.label}
+                Let's Connect
               </motion.a>
-            ))}
-            <motion.a
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mt-4 px-10 py-4 bg-accent-lime text-black font-black text-lg rounded-full uppercase tracking-wider"
-            >
-              Let's Connect
-            </motion.a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

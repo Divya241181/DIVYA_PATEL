@@ -53,11 +53,11 @@ const AnimatedNumber = ({ value, className }) => {
 
 const About = () => {
   return (
-    <section id="about" className="py-24 px-4 bg-transparent z-10 relative">
+    <section id="about" className="py-10 md:py-20 px-4 bg-transparent z-10 relative">
       <div className="max-w-6xl mx-auto">
         
         {/* Kinetic Typography Bio Start */}
-        <div className="mb-32 relative">
+        <div className="mb-8 md:mb-16 relative">
           
           {/* Animated Background Auras */}
           <motion.div 
@@ -71,20 +71,20 @@ const About = () => {
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           />
 
-          <div className="flex items-center gap-4 mb-20 px-4 md:px-0">
+          <div className="flex items-center gap-4 mb-5 md:mb-10 px-4 md:px-0">
             <div className="w-12 h-[1px] bg-zinc-600"></div>
             <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">About <span className="text-accent-neon">Me</span></span>
           </div>
           
           {/* Massive Staggered Typography */}
-          <div className="mb-24 space-y-2 md:space-y-4 px-4 md:px-0">
+          <div className="mb-6 md:mb-12 space-y-2 md:space-y-4 px-4 md:px-0">
              <div className="overflow-hidden">
                 <motion.h2 
                   initial={{ y: "100%" }}
                   whileInView={{ y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-white leading-[0.85] font-heading m-0"
+                  className="text-[9.5vw] sm:text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-white leading-[0.85] font-heading m-0"
                 >
                   I AM A FULL-STACK
                 </motion.h2>
@@ -95,7 +95,7 @@ const About = () => {
                   whileInView={{ y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                  className="text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-transparent font-heading bg-clip-text bg-gradient-to-r from-accent-purple to-accent-magenta leading-[0.85] m-0"
+                  className="text-[9.5vw] sm:text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-transparent font-heading bg-clip-text bg-gradient-to-r from-accent-purple to-accent-magenta leading-[0.85] m-0"
                 >
                   DEVELOPER DRIVEN BY
                 </motion.h2>
@@ -106,7 +106,7 @@ const About = () => {
                   whileInView={{ y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                  className="text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-transparent font-heading bg-clip-text bg-gradient-to-r from-accent-lime to-accent-neon leading-[0.85] m-0"
+                  className="text-[9.5vw] sm:text-[10vw] md:text-6xl lg:text-[6rem] font-black uppercase tracking-tighter text-transparent font-heading bg-clip-text bg-gradient-to-r from-accent-lime to-accent-neon leading-[0.85] m-0"
                 >
                   IMPACT AND A.I.
                 </motion.h2>
@@ -114,7 +114,7 @@ const About = () => {
           </div>
 
           {/* ── Bio + Education Rebuild ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 px-4 md:px-0 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 px-4 md:px-0 items-start">
 
             {/* ───── LEFT: Bio Panel ───── */}
             <motion.div
@@ -142,11 +142,11 @@ const About = () => {
               </div>
 
               {/* Stat strip */}
-              <div className="relative z-10 grid grid-cols-3 gap-4 mb-8">
+              <div className="relative z-10 grid grid-cols-3 gap-2 md:gap-4 mb-8">
                 {[
-                  { number: '2+', label: 'Years Building', color: '#B599FF' },
-                  { number: '10+', label: 'Projects done', color: '#00FFFF' },
-                  { number: '100%', label: 'Passion Driven', color: '#CCFF00' },
+                  { number: '2+', label: 'Years', color: '#B599FF' },
+                  { number: '10+', label: 'Projects', color: '#00FFFF' },
+                  { number: '100%', label: 'Driven', color: '#CCFF00' },
                 ].map((stat, i) => (
                   <motion.div
                     key={i}
@@ -154,12 +154,12 @@ const About = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + i * 0.1 }}
-                    className="flex flex-col gap-1 p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/60 hover:border-zinc-700/80 transition-colors duration-300"
+                    className="flex flex-col items-center justify-center text-center gap-1 p-2 sm:p-3 md:p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/60 hover:border-zinc-700/80 transition-colors duration-300"
                   >
-                    <span className="text-2xl md:text-3xl font-black font-heading" style={{ color: stat.color }}>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-black font-heading" style={{ color: stat.color }}>
                       {stat.number}
                     </span>
-                    <span className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest leading-tight">
+                    <span className="text-zinc-500 text-[9px] sm:text-[10px] font-mono uppercase tracking-widest leading-tight w-full truncate">
                       {stat.label}
                     </span>
                   </motion.div>
@@ -232,7 +232,7 @@ const About = () => {
               </motion.div>
 
               {/* Timeline items */}
-              <div className="relative flex flex-col gap-0 pl-6 border-l border-zinc-800">
+              <div className="relative flex flex-col gap-0 ml-4 md:ml-0 pl-6 md:pl-8 border-l border-zinc-800">
 
                 {/* ── B.Tech ── */}
                 <motion.div
@@ -397,13 +397,52 @@ const About = () => {
               </div>
             </div>
 
-            {/* Discover Projects Pill */}
-            <button 
+            {/* ── MOBILE ROW: Discover (2/3) + Spotify mini (1/3) ── */}
+            <div className="flex gap-3 lg:hidden">
+
+              {/* Discover — 2/3 */}
+              <button
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                className="flex-[2] min-w-0 bg-[#09090b] h-[72px] rounded-[24px] border border-zinc-800/80 hover:border-accent-purple/60 px-4 flex items-center justify-between group transition-all duration-400 cursor-pointer relative overflow-hidden hover:shadow-[0_0_30px_rgba(181,153,255,0.12)]"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-accent-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <span className="font-bold text-white text-sm relative z-10 group-hover:text-accent-purple transition-colors duration-300 leading-tight">Discover more projects</span>
+                <div className="relative z-10 w-7 h-7 shrink-0 rounded-full border border-zinc-800 group-hover:border-accent-purple/60 group-hover:bg-accent-purple/10 flex items-center justify-center transition-all duration-300 ml-2">
+                  <ArrowRight className="text-zinc-400 group-hover:text-accent-purple transition-colors duration-300" />
+                </div>
+              </button>
+
+              {/* Spotify mini — 1/3 */}
+              <div
+                className="flex-[1] min-w-0 bg-[#09090b] h-[72px] rounded-[24px] border border-zinc-800/80 hover:border-[#1ED760]/50 relative overflow-hidden flex items-center justify-center cursor-pointer transition-all duration-500 hover:shadow-[0_0_20px_rgba(30,215,96,0.25)]"
+                onClick={() => window.open('https://open.spotify.com/track/5NK3IhIeIXQmOKK5EiSRra?si=A8MFNweSSnSKjnWsOV_2Vw', '_blank')}
+              >
+                {/* Blurred background art */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-20 blur-md group-hover:opacity-35 transition-opacity duration-700"
+                  style={{ backgroundImage: `url('https://i.scdn.co/image/ab67616d0000b273c53e5adf9f81693d62f98019')` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                {/* Spinning record */}
+                <motion.div
+                  className="relative w-11 h-11 rounded-full overflow-hidden border border-zinc-800 z-10 shadow-[0_0_12px_rgba(30,215,96,0.15)]"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                >
+                  <img src="https://i.scdn.co/image/ab67616d0000b273c53e5adf9f81693d62f98019" alt="Album Art" className="w-full h-full object-cover opacity-90" />
+                  <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-[#09090b] rounded-full -translate-x-1/2 -translate-y-1/2 border border-zinc-800" />
+                </motion.div>
+                {/* Green dot indicator */}
+                <span className="absolute bottom-2 right-2 z-10 w-1.5 h-1.5 rounded-full bg-[#1ED760] shadow-[0_0_6px_rgba(30,215,96,0.9)]" />
+              </div>
+            </div>
+
+            {/* ── DESKTOP: Discover full-width ── */}
+            <button
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-[#09090b] h-[72px] w-full rounded-[24px] border border-zinc-800/80 hover:border-accent-purple/60 px-6 flex items-center justify-between group transition-all duration-400 cursor-pointer relative overflow-hidden hover:shadow-[0_0_30px_rgba(181,153,255,0.12)]"
+              className="hidden lg:flex bg-[#09090b] h-[72px] w-full rounded-[24px] border border-zinc-800/80 hover:border-accent-purple/60 px-6 items-center justify-between group transition-all duration-400 cursor-pointer relative overflow-hidden hover:shadow-[0_0_30px_rgba(181,153,255,0.12)]"
             >
-              {/* Purple sweep on hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-accent-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-accent-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <span className="font-medium text-white text-sm relative z-10 group-hover:text-accent-purple transition-colors duration-300">Discover more projects</span>
               <div className="relative z-10 w-8 h-8 rounded-full border border-zinc-800 group-hover:border-accent-purple/60 group-hover:bg-accent-purple/10 flex items-center justify-center transition-all duration-300">
                 <ArrowRight className="text-zinc-400 group-hover:text-accent-purple transition-colors duration-300" />
@@ -416,9 +455,9 @@ const About = () => {
           {/* COLUMN 3 (Spotify + Typing Speed) */}
           <div className="lg:col-span-4 flex flex-col gap-4">
             
-            {/* Spotify Editorial Vibe */}
+            {/* Spotify Editorial Vibe — hidden on mobile (shown in combined row above) */}
             <div 
-              className="group bg-[#09090b] h-[130px] rounded-[24px] border border-zinc-800/80 hover:border-[#1ED760]/50 relative overflow-hidden flex items-center p-6 cursor-pointer interactive shadow-sm transition-all duration-500 hover:shadow-[0_0_35px_rgba(30,215,96,0.25)]"
+              className="group bg-[#09090b] h-[130px] rounded-[24px] border border-zinc-800/80 hover:border-[#1ED760]/50 relative overflow-hidden hidden lg:flex items-center p-6 cursor-pointer interactive shadow-sm transition-all duration-500 hover:shadow-[0_0_35px_rgba(30,215,96,0.25)]"
               onClick={() => window.open('https://open.spotify.com/track/5NK3IhIeIXQmOKK5EiSRra?si=A8MFNweSSnSKjnWsOV_2Vw', '_blank')}
             >
                {/* Blurred Background Art */}

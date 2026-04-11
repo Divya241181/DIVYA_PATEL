@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
+import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -61,13 +62,14 @@ function App() {
         {loading && <Loader onLoadingComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
-      <div className={`min-h-screen transition-opacity duration-1000 ${loading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
+      <div className={`relative w-full overflow-x-clip min-h-screen transition-opacity duration-1000 ${loading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
         <Cursor />
         <Navbar />
         <main>
           <Hero />
           <About />
           <Skills />
+          <Experience />
           <Projects />
           <Contact />
         </main>
