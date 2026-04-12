@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, animate, useInView, useMotionValue, useTransform } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiFigma, SiSpotify, SiPython, SiDjango } from 'react-icons/si';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 
 // --- Small SVG Icons ---
 const MapPin = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>;
@@ -52,6 +53,16 @@ const AnimatedNumber = ({ value, className }) => {
 };
 
 const About = () => {
+  const { academic, loading: portfolioLoading } = usePortfolioData();
+
+  // Fallback data in case API is not available
+  const academicData = academic.length > 0 ? academic : [
+    { degree: "B.Tech — Information Technology", institution: "Drs. Kiran & Pallavi Patel Global University", period: "Aug 2023 — 2027", status: "Current", tags: ["Full Stack Dev", "DSA", "AI/ML", "DBMS"], order: 0 },
+    { degree: "Higher Secondary (Science)", institution: "Krishna School of Science", period: "May 2021 — 2023", status: "Completed", tags: ["Physics", "Chemistry", "Maths", "Computer Sc."], order: 1 }
+  ];
+
+  const accentColors = ['#D946EF', '#CCFF00', '#00FFFF', '#B599FF', '#FF00FF'];
+
   return (
     <section id="about" className="py-10 md:py-20 px-4 bg-transparent z-10 relative">
       <div className="max-w-6xl mx-auto">
@@ -234,81 +245,72 @@ const About = () => {
               {/* Timeline items */}
               <div className="relative flex flex-col gap-0 ml-4 md:ml-0 pl-6 md:pl-8 border-l border-zinc-800">
 
-                {/* ── B.Tech ── */}
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
-                  className="relative mb-6 group"
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute -left-[33px] top-8 w-4 h-4 rounded-full bg-zinc-950 border-2 border-accent-magenta group-hover:bg-accent-magenta group-hover:shadow-[0_0_12px_rgba(217,70,239,0.8)] transition-all duration-500" />
+                {academicData.map((edu, idx) => {
+                  const color = accentColors[idx % accentColors.length];
+                  return (
+                    <motion.div
+                      key={edu._id || idx}
+                      initial={{ opacity: 0, x: 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.7, delay: 0.3 + idx * 0.15 }}
+                      className={`relative ${idx < academicData.length - 1 ? 'mb-6' : ''} group`}
+                    >
+                      {/* Timeline dot */}
+                      <div
+                        className="absolute -left-[33px] top-8 w-4 h-4 rounded-full bg-zinc-950 border-2 transition-all duration-500"
+                        style={{
+                          borderColor: color,
+                          ...(false && { backgroundColor: color }) // hover handled via group
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = color; e.currentTarget.style.boxShadow = `0 0 12px ${color}`; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.boxShadow = ''; }}
+                      />
 
-                  <div className="p-7 rounded-[20px] bg-zinc-950/80 border border-zinc-800/80 hover:border-accent-magenta/60 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(217,70,239,0.08)] cursor-default">
-                    {/* Big ghost number */}
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[6rem] font-black text-zinc-800/20 select-none pointer-events-none leading-none">01</span>
-                    {/* Gradient sweep */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent-magenta/8 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-2 mb-4">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-magenta/10 border border-accent-magenta/30 text-accent-magenta font-mono text-[10px] uppercase tracking-widest">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent-magenta animate-pulse" />
-                          Aug 2023 — 2027
+                      <div
+                        className="p-7 rounded-[20px] bg-zinc-950/80 border border-zinc-800/80 relative overflow-hidden transition-all duration-500 cursor-default"
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${color}60`; e.currentTarget.style.boxShadow = `0 0 30px ${color}12`; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = ''; e.currentTarget.style.boxShadow = ''; }}
+                      >
+                        {/* Big ghost number */}
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[6rem] font-black text-zinc-800/20 select-none pointer-events-none leading-none">
+                          {String(idx + 1).padStart(2, '0')}
                         </span>
-                        <span className="text-xs text-zinc-600 font-mono">· Current</span>
-                      </div>
-                      <h4 className="text-white font-black text-2xl md:text-3xl tracking-tight group-hover:text-accent-magenta transition-colors duration-300 mb-1">
-                        B.Tech — Information Tech.
-                      </h4>
-                      <p className="text-zinc-500 text-sm font-medium">Drs. Kiran &amp; Pallavi Patel Global University</p>
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {['Full Stack Dev', 'DSA', 'AI/ML', 'DBMS'].map(t => (
-                          <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                        {/* Gradient sweep */}
+                        <div
+                          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                          style={{ background: `linear-gradient(to bottom right, ${color}10, transparent, transparent)` }}
+                        />
 
-                {/* ── Higher Secondary ── */}
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.45 }}
-                  className="relative group"
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute -left-[33px] top-8 w-4 h-4 rounded-full bg-zinc-950 border-2 border-accent-lime group-hover:bg-accent-lime group-hover:shadow-[0_0_12px_rgba(204,255,0,0.8)] transition-all duration-500" />
-
-                  <div className="p-7 rounded-[20px] bg-zinc-950/80 border border-zinc-800/80 hover:border-accent-lime/60 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(204,255,0,0.06)] cursor-default">
-                    {/* Big ghost number */}
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[6rem] font-black text-zinc-800/20 select-none pointer-events-none leading-none">02</span>
-                    {/* Gradient sweep */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent-lime/6 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-2 mb-4">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-lime/10 border border-accent-lime/30 text-accent-lime font-mono text-[10px] uppercase tracking-widest">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent-lime" />
-                          May 2021 — 2023
-                        </span>
-                        <span className="text-xs text-zinc-600 font-mono">· Completed</span>
+                        <div className="relative z-10">
+                          <div className="flex items-center gap-2 mb-4">
+                            <span
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-[10px] uppercase tracking-widest"
+                              style={{ backgroundColor: `${color}15`, borderColor: `${color}30`, color: color, border: `1px solid ${color}30` }}
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: color }} />
+                              {edu.period}
+                            </span>
+                            <span className="text-xs text-zinc-600 font-mono">· {edu.status}</span>
+                          </div>
+                          <h4
+                            className="text-white font-black text-2xl md:text-3xl tracking-tight transition-colors duration-300 mb-1 group-hover:text-current"
+                            onMouseEnter={(e) => { e.currentTarget.style.color = color; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
+                          >
+                            {edu.degree}
+                          </h4>
+                          <p className="text-zinc-500 text-sm font-medium">{edu.institution}</p>
+                          <div className="flex flex-wrap gap-2 mt-4">
+                            {(edu.tags || []).map(t => (
+                              <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">{t}</span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <h4 className="text-white font-black text-2xl md:text-3xl tracking-tight group-hover:text-accent-lime transition-colors duration-300 mb-1">
-                        Higher Secondary (Science)
-                      </h4>
-                      <p className="text-zinc-500 text-sm font-medium">Krishna School of Science</p>
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {['Physics', 'Chemistry', 'Maths', 'Computer Sc.'].map(t => (
-                          <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                    </motion.div>
+                  );
+                })}
 
               </div>
             </div>

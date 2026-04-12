@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 
-// ── Project Data ─────────────────────────────────────────────
-const projects = [
+// ── Fallback Project Data ────────────────────────────────────
+const fallbackProjects = [
   {
     id: 1,
     index: '01',
@@ -60,6 +61,14 @@ const projects = [
     link: '#',
     github: 'https://github.com/Divya241181/3D-Model-Web-Design',
   },
+];
+
+// Default images for projects without images
+const defaultImages = [
+  'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
 ];
 
 // ── Arrow Icon ───────────────────────────────────────────────
@@ -214,6 +223,26 @@ const Projects = () => {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const [trackWidth, setTrackWidth] = React.useState(0);
+  const { works, loading: portfolioLoading } = usePortfolioData();
+
+  // Transform API works data to the format expected by ProjectCard
+  const projects = React.useMemo(() => {
+    if (works && works.length > 0) {
+      return works.map((w, i) => ({
+        id: w._id || i + 1,
+        index: String(i + 1).padStart(2, '0'),
+        title: w.title,
+        category: (w.category || '').toUpperCase(),
+        description: w.desc,
+        tags: w.tags || [],
+        image: w.image || defaultImages[i % defaultImages.length],
+        accent: w.accent || '#00FFFF',
+        link: w.link || '#',
+        github: w.github || '#',
+      }));
+    }
+    return fallbackProjects;
+  }, [works]);
 
   // Measure the horizontal track once images load / resize
   React.useEffect(() => {
@@ -231,7 +260,7 @@ const Projects = () => {
       window.removeEventListener('resize', measure);
       clearTimeout(timer);
     };
-  }, []);
+  }, [projects]);
 
   // Track how far we've scrolled through this pinned section
   const { scrollYProgress } = useScroll({

@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import AllProjects from './pages/AllProjects.jsx'
+import AdminPage from './pages/AdminPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: '/projects',
     element: <AllProjects />,
+  },
+  {
+    path: '/admin',
+    element: <AdminPage />,
   },
 ])
 
