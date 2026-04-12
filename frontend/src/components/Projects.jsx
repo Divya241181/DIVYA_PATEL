@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 // ── Project Data ─────────────────────────────────────────────
 const projects = [
@@ -191,22 +192,20 @@ const ProjectCard = ({ project }) => (
 // ── "View All" End Card ──────────────────────────────────────
 const ViewAllCard = () => (
   <div className="relative w-[45vw] md:w-[30vw] lg:w-[25vw] h-[50vh] md:h-[56vh] shrink-0 flex items-center justify-center">
-    <a
-      href="https://github.com/Divya241181"
-      target="_blank"
-      rel="noreferrer"
+    <Link
+      to="/projects"
       className="group/all flex flex-col items-center justify-center gap-8 w-full h-full rounded-[3rem] border border-zinc-800/80 bg-zinc-950/60 backdrop-blur-sm hover:border-accent-lime/50 hover:bg-zinc-900/60 transition-all duration-700 cursor-pointer"
     >
       <span className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white font-heading group-hover/all:text-accent-lime transition-colors duration-500">
-        VIEW ALL
+        VIEW MORE
       </span>
       <div className="w-16 h-16 rounded-full border-2 border-zinc-700 group-hover/all:border-accent-lime flex items-center justify-center transition-all duration-500 group-hover/all:scale-110">
         <ArrowUpRight />
       </div>
       <span className="text-zinc-600 text-xs font-mono uppercase tracking-[0.3em] group-hover/all:text-zinc-400 transition-colors">
-        ( GitHub Archive )
+        ( All Projects )
       </span>
-    </a>
+    </Link>
   </div>
 );
 

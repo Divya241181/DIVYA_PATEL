@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, animate, useInView, useMotionValue, useTransform } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiFigma, SiSpotify, SiPython, SiDjango } from 'react-icons/si';
@@ -561,10 +561,10 @@ const About = () => {
                 </span>
                 Github activity
               </a>
-              <span className="text-zinc-500 font-mono text-xs uppercase tracking-widest hidden sm:block">Live Sync</span>
+              <span className="text-zinc-500 font-mono text-xs uppercase tracking-widest hidden sm:block" id="github-total-commits"></span>
             </div>
             
-            <div className="w-full overflow-x-auto no-scrollbar pb-2 opacity-80 group-hover:opacity-100 transition-opacity relative z-10">
+            <div className="w-full overflow-x-auto no-scrollbar pb-2 opacity-80 group-hover:opacity-100 transition-opacity relative z-10" ref={(el) => { if (el) setTimeout(() => { el.scrollLeft = el.scrollWidth; }, 600); }}>
               <div className="min-w-fit pr-4">
                 <GitHubCalendar 
                   username="divya241181" 
@@ -575,6 +575,12 @@ const About = () => {
                   blockSize={12}
                   blockMargin={4}
                   fontSize={12}
+                  transformData={(contributions) => {
+                    const total = contributions.reduce((sum, day) => sum + day.count, 0);
+                    const el = document.getElementById('github-total-commits');
+                    if (el) el.textContent = `${total} contributions`;
+                    return contributions;
+                  }}
                 />
               </div>
             </div>
