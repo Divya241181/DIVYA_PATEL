@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 
@@ -88,141 +88,192 @@ const ArrowUpRight = () => (
   </svg>
 );
 
-// ── Single Project Card ──────────────────────────────────────
-const ProjectCard = ({ project }) => (
-  <div className="relative w-[80vw] md:w-[60vw] lg:w-[48vw] h-[50vh] md:h-[56vh] shrink-0 group">
-    <div
-      className="relative w-full h-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-zinc-800/80 transition-all duration-700 cursor-pointer"
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = `${project.accent}50`;
-        e.currentTarget.style.boxShadow = `0 0 60px ${project.accent}15`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = '';
-        e.currentTarget.style.boxShadow = '';
-      }}
+
+
+// ── Single Project Card (Cinematic) ──────────────────────────
+const ProjectCard = ({ project, index, isEven }) => {
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { once: true, margin: '-80px' });
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 80 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-16 items-center`}
     >
-      {/* Full Image Background */}
-      <img
-        src={project.image}
-        alt={project.title}
-        className="absolute inset-0 w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-      />
+      {/* ── Image Side ── */}
+      <div
+        className="relative w-full lg:w-[58%] group"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Glow border — pure CSS transition */}
+        <div
+          className="absolute -inset-[2px] rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10"
+          style={{
+            background: `linear-gradient(135deg, ${project.accent}50, transparent 40%, ${project.accent}30, transparent 70%, ${project.accent}50)`,
+            filter: 'blur(8px)',
+          }}
+        />
 
-      {/* Gradient overlay — thin strip at bottom by default, expands on hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 group-hover:via-black/60 transition-all duration-700" />
+        <div className="relative overflow-hidden rounded-[2rem] border border-zinc-800/60 group-hover:border-zinc-700/60 transition-colors duration-700">
+          {/* Image */}
+          <div className="relative aspect-[16/10] overflow-hidden">
+            <img
+              src={project.image}
+              alt={project.title}
+              loading="lazy"
+              className="w-full h-full object-cover transition-all duration-700 ease-out grayscale-[30%] brightness-90 group-hover:grayscale-0 group-hover:brightness-105 group-hover:scale-[1.06]"
+            />
 
-      {/* Category pill — top right, hidden by default, visible on hover */}
-      <div className="absolute top-12 right-8 md:top-14 md:right-10 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out delay-100">
-        <span className="px-4 py-2 bg-zinc-900/70 backdrop-blur-xl border border-zinc-700/50 rounded-full text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-300">
-          {project.category}
-        </span>
-      </div>
-
-      {/* ── Content Container — anchored to bottom ── */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 lg:p-14 flex flex-col justify-end">
-
-        {/* Index — hidden by default, slides in on hover */}
-        <span
-          className="text-sm font-mono tracking-widest mb-3 block opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-75"
-          style={{ color: project.accent }}
-        >
-          /{project.index}
-        </span>
-
-        {/* Title — always visible, shifts up on hover to make room */}
-        <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-white font-heading leading-[0.9] mb-0 group-hover:mb-5 transition-all duration-500">
-          {project.title}
-        </h3>
-
-        {/* ── Hover-reveal content ── */}
-        <div className="max-h-0 opacity-0 group-hover:max-h-[300px] group-hover:opacity-100 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
-          {/* Description */}
-          <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-lg mb-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-150">
-            {project.description}
-          </p>
-
-          {/* Bottom bar: tags + action */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-200">
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[10px] font-mono px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm border border-zinc-800 text-zinc-500 uppercase tracking-widest"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* CTA Link */}
-            <a
-              href={project.link}
-              className="flex items-center gap-3 shrink-0 group/btn"
-            >
-              <span className="text-white font-bold text-sm uppercase tracking-wider">
-                View Project
-              </span>
-              <div
-                className="w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-500 text-white"
-                style={{
-                  borderColor: `${project.accent}40`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = project.accent;
-                  e.currentTarget.style.borderColor = project.accent;
-                  e.currentTarget.style.color = '#000';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '';
-                  e.currentTarget.style.borderColor = `${project.accent}40`;
-                  e.currentTarget.style.color = '';
-                }}
-              >
-                <ArrowUpRight />
-              </div>
-            </a>
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700"
+              style={{
+                background: `radial-gradient(ellipse at 50% 80%, ${project.accent}30, transparent 70%)`,
+              }}
+            />
           </div>
+
+          {/* Floating index number inside image */}
+          <span
+            className="absolute top-6 left-8 text-[8rem] md:text-[10rem] font-black font-heading leading-none select-none pointer-events-none transition-opacity duration-500"
+            style={{ color: project.accent, opacity: isHovered ? 0.12 : 0.04 }}
+          >
+            {project.index}
+          </span>
+
+          {/* Category pill */}
+          <div className="absolute top-6 right-6">
+            <span
+              className="px-4 py-2 rounded-full text-[10px] font-mono uppercase tracking-[0.2em] border backdrop-blur-md"
+              style={{
+                color: project.accent,
+                borderColor: `${project.accent}30`,
+                background: 'rgba(0,0,0,0.5)',
+              }}
+            >
+              {project.category}
+            </span>
+          </div>
+
+          {/* Bottom image gradient bar with accent */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-1 origin-left transition-transform duration-500 ease-out"
+            style={{ background: project.accent, transform: isHovered ? 'scaleX(1)' : 'scaleX(0)' }}
+          />
         </div>
       </div>
 
-      {/* Ghost number watermark */}
-      <span
-        className="absolute top-1/2 right-8 md:right-14 -translate-y-1/2 text-[12rem] md:text-[18rem] font-black select-none pointer-events-none leading-none font-heading opacity-[0.03]"
-        style={{ color: project.accent }}
-      >
-        {project.index}
-      </span>
-    </div>
-  </div>
-);
+      {/* ── Content Side ── */}
+      <div className={`w-full lg:w-[42%] flex flex-col gap-6 ${isEven ? 'lg:pl-0' : 'lg:pr-0'}`}>
+        {/* Index + line */}
+        <motion.div
+          className="flex items-center gap-4"
+          initial={{ opacity: 0, x: isEven ? 30 : -30 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <span
+            className="text-sm font-mono font-bold tracking-[0.3em]"
+            style={{ color: project.accent }}
+          >
+            {project.index}
+          </span>
+          <div className="flex-1 h-[1px] bg-zinc-800" />
+        </motion.div>
 
-// ── "View All" End Card ──────────────────────────────────────
-const ViewAllCard = () => (
-  <div className="relative w-[45vw] md:w-[30vw] lg:w-[25vw] h-[50vh] md:h-[56vh] shrink-0 flex items-center justify-center">
-    <Link
-      to="/projects"
-      className="group/all flex flex-col items-center justify-center gap-8 w-full h-full rounded-[3rem] border border-zinc-800/80 bg-zinc-950/60 backdrop-blur-sm hover:border-accent-lime/50 hover:bg-zinc-900/60 transition-all duration-700 cursor-pointer"
-    >
-      <span className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white font-heading group-hover/all:text-accent-lime transition-colors duration-500">
-        VIEW MORE
-      </span>
-      <div className="w-16 h-16 rounded-full border-2 border-zinc-700 group-hover/all:border-accent-lime flex items-center justify-center transition-all duration-500 group-hover/all:scale-110">
-        <ArrowUpRight />
+        {/* Title */}
+        <motion.h3
+          className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-white font-heading leading-[0.9]"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {project.title}
+        </motion.h3>
+
+        {/* Description */}
+        <motion.p
+          className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.45, duration: 0.7 }}
+        >
+          {project.description}
+        </motion.p>
+
+        {/* Tags */}
+        <motion.div
+          className="flex flex-wrap gap-2"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.55, duration: 0.6 }}
+        >
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px] font-mono px-3 py-1.5 rounded-full border text-zinc-500 uppercase tracking-widest hover:text-white transition-colors duration-300 cursor-default"
+              style={{
+                borderColor: 'rgba(63,63,70,0.5)',
+                background: 'rgba(9,9,11,0.6)',
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* CTA Row */}
+        <motion.div
+          className="flex items-center gap-5 pt-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.65, duration: 0.6 }}
+        >
+          <a
+            href={project.link}
+            className="group/btn flex items-center gap-3"
+          >
+            <span className="text-white font-bold text-sm uppercase tracking-wider group-hover/btn:tracking-[0.2em] transition-all duration-500">
+              View Project
+            </span>
+            <div
+              className="w-12 h-12 rounded-full border-2 flex items-center justify-center text-white hover:text-black hover:scale-110 transition-all duration-500"
+              style={{ borderColor: `${project.accent}40` }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = project.accent; e.currentTarget.style.borderColor = project.accent; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.borderColor = `${project.accent}40`; }}
+            >
+              <ArrowUpRight />
+            </div>
+          </a>
+
+          {project.github && project.github !== '#' && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              className="text-zinc-600 hover:text-white text-xs font-mono uppercase tracking-widest transition-colors duration-300 border-b border-zinc-800 hover:border-zinc-500 pb-0.5"
+            >
+              Source ↗
+            </a>
+          )}
+        </motion.div>
       </div>
-      <span className="text-zinc-600 text-xs font-mono uppercase tracking-[0.3em] group-hover/all:text-zinc-400 transition-colors">
-        ( All Projects )
-      </span>
-    </Link>
-  </div>
-);
+    </motion.div>
+  );
+};
+
 
 // ── Main Projects Section ────────────────────────────────────
 const Projects = () => {
   const sectionRef = useRef(null);
-  const trackRef = useRef(null);
-  const [trackWidth, setTrackWidth] = React.useState(0);
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true, margin: '-50px' });
   const { works, loading: portfolioLoading } = usePortfolioData();
 
   // Transform API works data to the format expected by ProjectCard
@@ -244,103 +295,121 @@ const Projects = () => {
     return fallbackProjects;
   }, [works]);
 
-  // Measure the horizontal track once images load / resize
-  React.useEffect(() => {
-    const measure = () => {
-      if (trackRef.current) {
-        const scrollW = trackRef.current.scrollWidth;
-        const clientW = window.innerWidth;
-        setTrackWidth(scrollW - clientW);
-      }
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    const timer = setTimeout(measure, 500); // re-measure after images
-    return () => {
-      window.removeEventListener('resize', measure);
-      clearTimeout(timer);
-    };
-  }, [projects]);
-
-  // Track how far we've scrolled through this pinned section
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-
-  // Map vertical scroll (0→1) to horizontal translation (0 → -trackWidth px)
-  const x = useTransform(scrollYProgress, [0, 1], [0, -trackWidth]);
-
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="relative bg-transparent z-10"
-      style={{ height: `${(projects.length + 1) * 100}vh` }}
+      className="relative py-20 md:py-32 overflow-hidden"
     >
-      {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
+      {/* ── Ambient Background — static CSS, no JS animation ── */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-accent-purple/[0.04] blur-[100px]" />
+        <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-accent-neon/[0.03] blur-[80px]" />
+      </div>
 
-        {/* Section Header — pinned at top */}
-        <div className="max-w-[1400px] mx-auto w-full px-4 md:px-8 pt-8 md:pt-12 pb-8 md:pb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-4 mb-4 md:mb-6">
-              <div className="w-12 h-[1px] bg-zinc-600" />
-              <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">
-                Selected <span className="text-accent-purple">Works</span>
-              </span>
-            </div>
+      <div className="max-w-[1300px] mx-auto px-6 md:px-10">
 
-            {/* Massive Typography */}
-            <div className="flex flex-col md:flex-row md:items-baseline md:gap-6">
-              <motion.h2
-                initial={{ y: '100%', opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[12vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.85] font-heading"
-              >
-                FEATURED
-              </motion.h2>
-              <motion.h2
-                initial={{ y: '100%', opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                className="text-[12vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-accent-lime to-accent-neon leading-[0.85] font-heading"
-              >
-                WORK
-              </motion.h2>
-            </div>
+        {/* ── Section Header ── */}
+        <div ref={headerRef} className="mb-20 md:mb-32">
+          {/* Label */}
+          <motion.div
+            className="flex items-center gap-4 mb-8"
+            initial={{ opacity: 0, x: -30 }}
+            animate={isHeaderInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="w-14 h-[2px] bg-gradient-to-r from-accent-lime to-transparent" />
+            <span className="text-zinc-400 text-sm font-mono uppercase tracking-[0.3em]">
+              Selected Works
+            </span>
+            <span
+              className="px-3 py-1 rounded-full bg-accent-lime/10 border border-accent-lime/30 text-accent-lime text-[10px] font-mono font-bold tracking-widest"
+            >
+              {String(projects.length).padStart(2, '0')}
+            </span>
+          </motion.div>
+
+          {/* Title */}
+          <div className="overflow-hidden">
+            <motion.h2
+              className="text-[13vw] sm:text-[10vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-white leading-[0.85] font-heading"
+              initial={{ y: '110%' }}
+              animate={isHeaderInView ? { y: '0%' } : {}}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Featured
+            </motion.h2>
+          </div>
+          <div className="overflow-hidden">
+            <motion.h2
+              className="text-[13vw] sm:text-[10vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.85] font-heading"
+              style={{
+                WebkitTextStroke: '2px rgba(204,255,0,0.6)',
+                WebkitTextFillColor: 'transparent',
+              }}
+              initial={{ y: '110%' }}
+              animate={isHeaderInView ? { y: '0%' } : {}}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            >
+              Projects
+            </motion.h2>
           </div>
 
-          {/* Scroll hint — right side */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="hidden md:flex flex-col items-end gap-1 pb-2"
+          {/* Subtitle */}
+          <motion.p
+            className="text-zinc-500 text-base md:text-lg max-w-xl mt-6 leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5, duration: 0.7 }}
           >
-            <span className="text-zinc-600 text-[10px] font-mono uppercase tracking-[0.3em]">Work</span>
-            <span className="text-accent-lime text-[10px] font-mono tracking-[0.2em]">( Scroll )</span>
-          </motion.div>
+            A curated showcase of my most impactful work — from AI-powered platforms to immersive web experiences.
+          </motion.p>
         </div>
 
-        {/* Horizontal Track */}
-        <div className="flex-1 flex items-center overflow-hidden">
-          <motion.div
-            ref={trackRef}
-            className="flex gap-6 md:gap-8 pl-4 md:pl-8 pr-8"
-            style={{ x }}
-          >
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-            <ViewAllCard />
-          </motion.div>
+
+        {/* ── Project Cards ── */}
+        <div className="flex flex-col gap-24 md:gap-36 lg:gap-44">
+          {projects.map((project, i) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={i}
+              isEven={i % 2 === 0}
+            />
+          ))}
         </div>
 
+
+        {/* ── View All CTA ── */}
+        <motion.div
+          className="mt-16 md:mt-24 pt-10 border-t border-zinc-800/60 flex items-center justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <Link
+            to="/projects"
+            className="group flex items-center gap-5"
+          >
+            <div
+              className="w-14 h-14 rounded-full border-2 border-zinc-700 group-hover:border-accent-lime group-hover:scale-110 active:scale-95 flex items-center justify-center transition-all duration-500 relative overflow-hidden shrink-0"
+            >
+              <div className="absolute inset-0 bg-accent-lime/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-500 ease-out" />
+              <div className="relative text-white group-hover:text-accent-lime transition-colors duration-500">
+                <ArrowUpRight />
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-white font-black text-xl md:text-2xl uppercase tracking-tighter font-heading group-hover:text-accent-lime transition-colors duration-500">
+                View All Projects
+              </span>
+              <span className="text-zinc-600 text-[10px] font-mono uppercase tracking-[0.3em] group-hover:text-zinc-400 transition-colors duration-500">
+                Complete Archive →
+              </span>
+            </div>
+          </Link>
+        </motion.div>
 
       </div>
     </section>
@@ -348,4 +417,3 @@ const Projects = () => {
 };
 
 export default Projects;
-

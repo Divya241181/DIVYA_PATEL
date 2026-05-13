@@ -129,7 +129,7 @@ const ExperienceCard = ({ item, index, onChange, onDelete }) => (
         className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-purple-500/50 transition-colors"
       />
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
       <input
         type="text"
         value={item.company}
@@ -144,6 +144,16 @@ const ExperienceCard = ({ item, index, onChange, onDelete }) => (
         placeholder="Period"
         className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-purple-500/50 transition-colors"
       />
+      <div className="flex gap-2 items-center">
+        <label className="text-zinc-500 text-xs font-mono uppercase shrink-0">Accent:</label>
+        <input
+          type="color"
+          value={item.accent || '#00FFFF'}
+          onChange={(e) => onChange({ ...item, accent: e.target.value })}
+          className="w-10 h-10 rounded-lg border border-zinc-700 bg-transparent cursor-pointer"
+        />
+        <span className="text-zinc-500 text-xs font-mono">{item.accent || '#00FFFF'}</span>
+      </div>
       <select
         value={item.type}
         onChange={(e) => onChange({ ...item, type: e.target.value })}
@@ -153,6 +163,15 @@ const ExperienceCard = ({ item, index, onChange, onDelete }) => (
         <option value="Internship">Internship</option>
         <option value="Freelance">Freelance</option>
         <option value="Part-time">Part-time</option>
+        <option value="Project-Based">Project-Based</option>
+      </select>
+      <select
+        value={item.status}
+        onChange={(e) => onChange({ ...item, status: e.target.value })}
+        className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-purple-500/50 transition-colors cursor-pointer"
+      >
+        <option value="Current">Current</option>
+        <option value="Completed">Completed</option>
       </select>
     </div>
     <textarea
@@ -446,7 +465,7 @@ const AdminPage = () => {
   const addItem = (section) => {
     const blanks = {
       academic: { degree: '', institution: '', period: '', status: 'Current', tags: [], order: 0 },
-      experience: { role: '', company: '', period: '', type: 'Full-time', desc: '', tags: [], order: 0 },
+      experience: { role: '', company: '', period: '', type: 'Full-time', status: 'Completed', desc: '', tags: [], accent: '#00FFFF', order: 0 },
       works: { title: '', category: '', desc: '', tags: [], accent: '#00FFFF', link: '#', github: '#', image: '', order: 0 },
       archive: { title: '', year: '', category: '', status: 'Live', tags: [], link: '#', github: '#', order: 0 },
     };

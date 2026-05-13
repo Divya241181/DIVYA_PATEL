@@ -55,6 +55,7 @@ const Cursor = () => {
           height: '36px',
           mixBlendMode: 'difference',
           zIndex: 9999,
+          willChange: 'transform',
         }}
         initial={false}
         animate={{

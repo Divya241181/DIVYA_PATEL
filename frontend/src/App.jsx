@@ -9,6 +9,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import Cursor from './components/Cursor';
+import BackgroundEffects from './components/BackgroundEffects';
 import { AnimatePresence } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 
@@ -63,6 +64,7 @@ function App() {
       </AnimatePresence>
 
       <div className={`relative w-full overflow-x-clip min-h-screen transition-opacity duration-1000 ${loading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
+        <BackgroundEffects />
         <Cursor />
         <Navbar />
         <main>

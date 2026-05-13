@@ -108,20 +108,21 @@ const Skills = () => {
   return (
     <section id="skills" className="pt-10 md:pt-20 pb-5 md:pb-10 relative overflow-hidden bg-transparent">
       {/* Ambient auras */}
-      <div className="absolute top-[10%] left-[-15%] w-[55vw] h-[55vw] bg-accent-neon/4 rounded-full blur-[150px] pointer-events-none -z-10" />
-      <div className="absolute bottom-[10%] right-[-15%] w-[45vw] h-[45vw] bg-accent-purple/5 rounded-full blur-[150px] pointer-events-none -z-10" />
+      <div className="absolute top-[10%] left-[-15%] w-[55vw] h-[55vw] bg-accent-neon/4 rounded-full blur-[80px] pointer-events-none -z-10" />
+      <div className="absolute bottom-[10%] right-[-15%] w-[45vw] h-[45vw] bg-accent-purple/5 rounded-full blur-[80px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto px-4">
 
         {/* ── Section Header ── */}
-        <motion.div
-          className="flex items-center gap-4 mb-14"
-        >
-          <div className="w-12 h-[1px] bg-zinc-600" />
-          <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">
-            Tech Stack <span className="text-zinc-600">//</span> <span className="text-accent-gold">Tools</span>
+        <div className="flex items-center gap-4 mb-14">
+          <div className="w-14 h-[2px] bg-gradient-to-r from-[#FFD700] to-transparent" />
+          <span className="text-zinc-400 text-sm font-mono uppercase tracking-[0.3em]">
+            Tech Stack // Tools
           </span>
-        </motion.div>
+          <span className="px-3 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/30 text-[#FFD700] text-[10px] font-mono font-bold tracking-widest">
+            04
+          </span>
+        </div>
 
         {/* ── Bento Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -253,7 +254,7 @@ const Skills = () => {
             animate={{ x: [0, '-50%'] }}
             transition={{ ease: 'linear', duration: 30, repeat: Infinity }}
           >
-            {[...Array(4)].map((_, i) => (
+            {[...Array(2)].map((_, i) => (
               <div key={i} className="flex items-center gap-14">
                 {[
                   { text: 'REACT', color: '#61DAFB' },

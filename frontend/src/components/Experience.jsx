@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 
-// ── Experience Data ──────────────────────────────────────────
-const experiences = [
+// ── Fallback Experience Data ─────────────────────────────────
+const fallbackExperiences = [
   {
     id: 1,
     role: 'Full Stack Developer',
@@ -37,8 +38,7 @@ const experiences = [
     accent: '#CCFF00',
     description:
       'Developed multiple web projects including 3D model-integrated UI, e-commerce platforms, and interactive dashboards. Focused on learning modern frameworks, responsive design, and motion engineering.',
-    highlights: ['React', 'Three.js', 'CSS Animations', 'REST APIs'],
-  },
+  }
 ];
 
 // ── Timeline Dot ─────────────────────────────────────────────
@@ -154,12 +154,12 @@ const ExperienceCard = ({ exp, index }) => {
 
           {/* Description */}
           <p className="text-zinc-400 text-sm leading-relaxed mb-5 max-w-[90%]">
-            {exp.description}
+            {exp.desc || exp.description}
           </p>
 
           {/* Highlight Tags */}
           <div className="flex flex-wrap gap-2">
-            {exp.highlights.map((tag) => (
+            {(exp.tags || exp.highlights || []).map((tag) => (
               <span
                 key={tag}
                 className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white hover:border-zinc-600 transition-all duration-300 cursor-default"
@@ -176,15 +176,30 @@ const ExperienceCard = ({ exp, index }) => {
 
 // ── Main Experience Section ──────────────────────────────────
 const Experience = () => {
+  const { experience: dbExperiences, loading } = usePortfolioData();
+  
+  const experiences = useMemo(() => {
+    if (dbExperiences && dbExperiences.length > 0) {
+      return dbExperiences.map((exp, i) => ({
+        ...exp,
+        id: exp._id || i,
+      }));
+    }
+    return fallbackExperiences;
+  }, [dbExperiences]);
+
   return (
     <section id="experience" className="pt-5 md:pt-10 pb-10 md:pb-20 px-4 bg-transparent z-10 relative">
       <div className="max-w-[1400px] mx-auto pt-3 md:pt-8">
 
-        {/* Section Header — matches other sections */}
+        {/* Section Header */}
         <div className="flex items-center gap-4 mb-10 md:mb-16 px-4 md:px-0">
-          <div className="w-12 h-[1px] bg-zinc-600"></div>
-          <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">
-            My <span className="text-accent-neon">Experience</span>
+          <div className="w-14 h-[2px] bg-gradient-to-r from-accent-neon to-transparent" />
+          <span className="text-zinc-400 text-sm font-mono uppercase tracking-[0.3em]">
+            My Experience
+          </span>
+          <span className="px-3 py-1 rounded-full bg-accent-neon/10 border border-accent-neon/30 text-accent-neon text-[10px] font-mono font-bold tracking-widest">
+            03
           </span>
         </div>
 

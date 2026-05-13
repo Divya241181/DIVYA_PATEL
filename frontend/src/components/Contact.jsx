@@ -57,18 +57,10 @@ const Contact = () => {
       ref={sectionRef}
       className="relative py-10 md:py-24 px-4 overflow-hidden"
     >
-      {/* Layered background ambience */}
+      {/* Layered background ambience — static CSS */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <motion.div
-          className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-accent-purple/10 blur-[140px]"
-          animate={{ scale: [1, 1.2, 1], x: [0, 30, 0] }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute bottom-[-5%] left-[-5%] w-[400px] h-[400px] rounded-full bg-accent-neon/8 blur-[120px]"
-          animate={{ scale: [1, 1.3, 1], y: [0, -40, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        />
+        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-accent-purple/8 blur-[100px]" />
+        <div className="absolute bottom-[-5%] left-[-5%] w-[400px] h-[400px] rounded-full bg-accent-neon/6 blur-[80px]" />
       </div>
 
       <div className="max-w-[1100px] mx-auto">
@@ -81,8 +73,13 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="flex items-center gap-4 mb-6"
           >
-            <div className="w-10 h-[1px] bg-zinc-600" />
-            <span className="text-zinc-500 font-mono text-xs uppercase tracking-[0.3em]">Get in touch</span>
+            <div className="w-14 h-[2px] bg-gradient-to-r from-accent-purple to-transparent" />
+            <span className="text-zinc-400 text-sm font-mono uppercase tracking-[0.3em]">
+              Get In Touch
+            </span>
+            <span className="px-3 py-1 rounded-full bg-accent-purple/10 border border-accent-purple/30 text-accent-purple text-[10px] font-mono font-bold tracking-widest">
+              ✉
+            </span>
           </motion.div>
 
           <motion.h2
@@ -169,11 +166,27 @@ const Contact = () => {
           </div>
 
           {/* RIGHT — Form */}
-          <div className="bg-zinc-950/60 backdrop-blur-xl border border-zinc-800/80 rounded-[2rem] p-8 md:p-12 relative overflow-hidden">
-            {/* Subtle top shimmer */}
-            <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-zinc-600/60 to-transparent" />
+          <div className="bg-zinc-950/60 backdrop-blur-xl border border-zinc-800/80 rounded-[2rem] p-8 md:p-12 relative overflow-hidden z-10">
+            {/* Floating Background Elements — pure CSS animations */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+              <div
+                className="absolute top-[5%] left-[5%] w-[200px] h-[200px] rounded-full bg-accent-purple/15 blur-[60px]"
+                style={{ animation: 'contactFloat1 12s ease-in-out infinite' }}
+              />
+              <div
+                className="absolute bottom-[5%] right-[5%] w-[220px] h-[220px] rounded-full bg-[#00FFFF]/12 blur-[70px]"
+                style={{ animation: 'contactFloat2 14s ease-in-out infinite 1s' }}
+              />
+              <div
+                className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-accent-neon/10 blur-[60px]"
+                style={{ animation: 'contactFloat3 10s ease-in-out infinite 2s' }}
+              />
+            </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            {/* Subtle top shimmer */}
+            <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-zinc-600/60 to-transparent z-10" />
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8 relative z-10">
 
               {/* Name + Email row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

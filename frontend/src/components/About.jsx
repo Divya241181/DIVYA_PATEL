@@ -70,21 +70,18 @@ const About = () => {
         {/* Kinetic Typography Bio Start */}
         <div className="mb-8 md:mb-16 relative">
           
-          {/* Animated Background Auras */}
-          <motion.div 
-            className="absolute top-[-10%] right-[10%] w-[40vw] h-[40vw] bg-accent-magenta/10 rounded-full blur-[120px] -z-10 pointer-events-none"
-            animate={{ scale: [1, 1.2, 1], x: [0, -50, 0] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div 
-            className="absolute top-[50%] left-[10%] w-[30vw] h-[30vw] bg-accent-lime/10 rounded-full blur-[120px] -z-10 pointer-events-none"
-            animate={{ scale: [1, 1.5, 1], y: [0, -50, 0] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          />
+          {/* Static Background Auras */}
+          <div className="absolute top-[-10%] right-[10%] w-[40vw] h-[40vw] bg-accent-magenta/8 rounded-full blur-[80px] -z-10 pointer-events-none" />
+          <div className="absolute top-[50%] left-[10%] w-[30vw] h-[30vw] bg-accent-lime/8 rounded-full blur-[80px] -z-10 pointer-events-none" />
 
           <div className="flex items-center gap-4 mb-5 md:mb-10 px-4 md:px-0">
-            <div className="w-12 h-[1px] bg-zinc-600"></div>
-            <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">About <span className="text-accent-neon">Me</span></span>
+            <div className="w-14 h-[2px] bg-gradient-to-r from-accent-neon to-transparent" />
+            <span className="text-zinc-400 text-sm font-mono uppercase tracking-[0.3em]">
+              About Me
+            </span>
+            <span className="px-3 py-1 rounded-full bg-accent-neon/10 border border-accent-neon/30 text-accent-neon text-[10px] font-mono font-bold tracking-widest">
+              BIO
+            </span>
           </div>
           
           {/* Massive Staggered Typography */}
@@ -319,8 +316,13 @@ const About = () => {
         </div>
 
         <div className="flex items-center gap-4 mb-10">
-          <div className="w-12 h-[1px] bg-zinc-600"></div>
-          <span className="text-white text-xl font-bold tracking-widest uppercase font-heading">Expertise & <span className="text-accent-purple">History</span></span>
+          <div className="w-14 h-[2px] bg-gradient-to-r from-accent-purple to-transparent" />
+          <span className="text-zinc-400 text-sm font-mono uppercase tracking-[0.3em]">
+            Expertise & History
+          </span>
+          <span className="px-3 py-1 rounded-full bg-accent-purple/10 border border-accent-purple/30 text-accent-purple text-[10px] font-mono font-bold tracking-widest">
+            HUB
+          </span>
         </div>
         {/* Main Grid: Using flex column wrappers for masonry-like masonry */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">

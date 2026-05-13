@@ -13,9 +13,11 @@ const experienceSchema = new mongoose.Schema({
   role: { type: String, default: '' },
   company: { type: String, default: '' },
   period: { type: String, default: '' },
-  type: { type: String, enum: ['Full-time', 'Internship', 'Freelance', 'Part-time'], default: 'Full-time' },
+  status: { type: String, enum: ['Current', 'Completed'], default: 'Completed' },
+  type: { type: String, enum: ['Full-time', 'Internship', 'Freelance', 'Part-time', 'Project-Based'], default: 'Full-time' },
   desc: { type: String, default: '' },
   tags: { type: [String], default: [] },
+  accent: { type: String, default: '#00FFFF' },
   order: { type: Number, default: 0 }
 }, { _id: true });
 
