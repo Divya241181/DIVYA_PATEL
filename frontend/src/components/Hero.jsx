@@ -1,30 +1,15 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 
-// ── Word-level slide-up animation with elastic spring ──────────
-const AnimatedWord = ({ word, delay = 0, className = '', hoverColor = '#00FFFF' }) => (
-  <span className="inline-block overflow-hidden">
-    <motion.span
-      className={`inline-block ${className}`}
-      initial={{ y: '120%', rotateZ: 8, opacity: 0 }}
-      animate={{ y: '0%', rotateZ: 0, opacity: 1 }}
-      transition={{
-        duration: 1,
-        delay,
-        ease: [0.22, 1.2, 0.36, 1], // elastic overshoot
-      }}
-      whileHover={{
-        y: -6,
-        color: hoverColor,
-        textShadow: `0 0 20px ${hoverColor}60`,
-        transition: { duration: 0.2 }
-      }}
-      style={{ display: 'inline-block' }}
-    >
-      {word}
-    </motion.span>
-  </span>
-);
+// shared title style token
+const titleStyle = {
+  fontFamily: "'Inter', ui-sans-serif, sans-serif",
+  fontWeight: 800,
+  fontSize: 'clamp(56px, 9vw, 96px)',
+  lineHeight: 0.92,
+  letterSpacing: '-0.03em',
+  display: 'block',
+};
 
 // ── Holographic ID Badge ──────────────────────────────────────
 // Concept: a premium "access card" that the dev carries. The photo sits
@@ -311,39 +296,63 @@ const Hero = () => {
               perspective: 1200,
             }}
           >
-            {/* Line 1: FULL STACK — word-level elastic slide-up */}
-            <div
-              className="font-heading block"
-              style={{ transformStyle: 'preserve-3d' }}
+            {/* ── TITLE: FULLSTACK + WEBDEV ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 3.0, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                paddingLeft: '16px',
+                borderLeft: '2px solid #ccff00',
+              }}
             >
-              <div className="text-[11.5vw] sm:text-[10vw] lg:text-[6rem] xl:text-[7rem] font-black leading-[0.85] tracking-tighter uppercase text-white block mb-1">
-                <AnimatedWord word="FULL" delay={3.0} hoverColor="#00FFFF" />
-                <span className="inline-block w-[0.3em]" />
-                <AnimatedWord word="STACK" delay={3.15} hoverColor="#B599FF" />
+              {/* FULLSTACK — solid #e8e8e8 */}
+              <span style={{ ...titleStyle, color: '#e8e8e8' }}>
+                FULLSTACK
+              </span>
+
+              {/* WEBDEV — muted #2a2a2a + inline badge */}
+              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span style={{ ...titleStyle, color: '#2a2a2a' }}>
+                  WEBDEV
+                </span>
+                <span
+                  style={{
+                    background: '#ccff00',
+                    color: '#0b0b0b',
+                    fontSize: '10px',
+                    letterSpacing: '0.14em',
+                    padding: '4px 10px',
+                    borderRadius: '4px',
+                    marginTop: '4px',
+                    fontWeight: 700,
+                    fontFamily: "'Inter', sans-serif",
+                    whiteSpace: 'nowrap',
+                    lineHeight: 1,
+                    flexShrink: 0,
+                  }}
+                >
+                  ↗ SINCE 2023
+                </span>
+              </span>
+
+              {/* HR + stack label */}
+              <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div style={{ flex: 1, height: '1px', background: '#1c1c1c' }} />
+                <span
+                  style={{
+                    fontFamily: 'ui-monospace, monospace',
+                    fontSize: '10px',
+                    letterSpacing: '0.16em',
+                    color: '#333',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  MERN · PYTHON · FULL STACK
+                </span>
+                <div style={{ flex: 1, height: '1px', background: '#1c1c1c' }} />
               </div>
-
-              {/* Line 2: WEB DEV — elastic slide-up + shimmer gradient */}
-              <motion.div
-                className="text-[11.5vw] sm:text-[10vw] lg:text-[6rem] xl:text-[7rem] font-black leading-[0.85] tracking-tighter uppercase block text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta"
-                style={{ backgroundSize: '200% auto' }}
-                animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-              >
-                <AnimatedWord word="WEB" delay={3.3} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" hoverColor="#FF00FF" />
-                <span className="inline-block w-[0.3em]" />
-                <AnimatedWord word="DEV" delay={3.45} className="text-transparent bg-clip-text bg-gradient-to-r from-accent-neon via-accent-purple to-accent-magenta" hoverColor="#CCFF00" />
-              </motion.div>
-            </div>
-
-            {/* Subtle 3D depth layer — ghost copy shifted back in Z */}
-            <div
-              className="absolute inset-0 text-[11.5vw] sm:text-[10vw] lg:text-[6rem] xl:text-[7rem] font-black leading-[0.85] tracking-tighter uppercase pointer-events-none select-none opacity-[0.04] text-accent-neon blur-[1px] font-heading"
-              style={{ transform: 'translateZ(-40px)', transformStyle: 'preserve-3d' }}
-              aria-hidden
-            >
-              <div className="block mb-1">FULL STACK</div>
-              <div className="block">WEB DEV</div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Animated Paragraph */}

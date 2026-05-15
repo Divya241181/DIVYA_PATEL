@@ -273,3 +273,28 @@ code, pre, .font-mono {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(25px, -25px) scale(1.1); }
 }
+
+/* ── WEBDEV lime neon glow pulse ── */
+@keyframes limeGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 18px rgba(204, 255, 0, 0.55),
+      0 0 45px rgba(204, 255, 0, 0.2),
+      0 0 90px rgba(204, 255, 0, 0.07);
+  }
+  50% {
+    text-shadow:
+      0 0 28px rgba(204, 255, 0, 0.95),
+      0 0 70px rgba(204, 255, 0, 0.45),
+      0 0 130px rgba(204, 255, 0, 0.18);
+  }
+}
+
+.lime-pulse-glow {
+  animation: limeGlow 3s ease-in-out infinite;
+  animation-play-state: paused; /* starts paused; JS delay via animationDelay re-plays */
+}
+
+.lime-pulse-glow[style*="animation-delay"] {
+  animation-play-state: running;
+}
