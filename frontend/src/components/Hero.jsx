@@ -235,6 +235,24 @@ const HoloBadge = () => {
   );
 };
 
+// ── Floating Badge Component ───────────────────────────────────
+const FloatingBadge = ({ children, className, containerClass = "border-white/10 bg-zinc-900/50 text-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.5)]", delay = 0, floatDuration = 4, yOffset = 10 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, delay, ease: "easeOut" }}
+    className={`absolute z-50 hidden lg:flex ${className}`}
+  >
+    <motion.div
+      animate={{ y: [-yOffset, yOffset, -yOffset] }}
+      transition={{ duration: floatDuration, repeat: Infinity, ease: "easeInOut" }}
+      className={`items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md text-sm font-medium flex ${containerClass}`}
+    >
+      {children}
+    </motion.div>
+  </motion.div>
+);
+
 // ── Main Hero Component ──────────────────────────────────────
 const Hero = () => {
   const containerRef = useRef(null);
@@ -264,16 +282,50 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-start lg:items-center justify-center pt-2 pb-4 lg:pt-4 lg:pb-12 overflow-hidden bg-transparent z-10 w-full"
+      className="relative min-h-screen flex items-start lg:items-center justify-center pb-4 lg:pb-12 overflow-hidden bg-transparent z-10 w-full"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
+      {/* ── Floating Badges ── */}
+      <div className="absolute inset-0 z-50 pointer-events-none hidden lg:flex max-w-[1600px] mx-auto w-full h-full">
+        {/* 1. Available for work — top-right corner, above the badge card */}
+        <FloatingBadge containerClass="border-emerald-500/30 bg-emerald-500/10 text-emerald-50 shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(16,185,129,0.2)]" className="top-[10%] right-[3%]" delay={2.6} floatDuration={4.2} yOffset={8}>
+          <div className="relative flex h-2.5 w-2.5 mr-1">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </div>
+          <span className="font-semibold">Available for work</span>
+        </FloatingBadge>
+
+        {/* 2. 12+ Projects shipped — top-left corner, above the headline */}
+
+        {/* 4. Responds within 24hrs — placed inline near Contact Me button */}
+      </div>
+
       <div
         className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-6"
         ref={containerRef}
       >
         {/* Left Typography Column */}
         <div className="flex-1 flex flex-col justify-center text-left w-full lg:max-w-[60%] xl:max-w-[65%]">
+
+          {/* 12+ Projects shipped — above the Hello tag, desktop only */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 2.8 }}
+            className="hidden lg:block"
+            style={{ position: 'relative', left: '7.5cm' }}
+          >
+            <motion.div
+              animate={{ y: [-8, 8, -8] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-50 text-sm font-medium shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(6,182,212,0.2)] backdrop-blur-md"
+            >
+              <span className="text-cyan-300">✦</span>
+              <span>12+ Projects shipped</span>
+            </motion.div>
+          </motion.div>
 
           {/* Intro Tag — subtle slide in */}
           <motion.div
@@ -311,32 +363,32 @@ const Hero = () => {
                 FULLSTACK
               </span>
 
-              {/* WEBDEV — muted #2a2a2a + inline badge */}
-              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ ...titleStyle, color: '#2a2a2a' }}>
-                  WEBDEV
-                </span>
-                <span
-                  style={{
-                    background: '#ccff00',
-                    color: '#0b0b0b',
-                    fontSize: '10px',
-                    letterSpacing: '0.14em',
-                    padding: '4px 10px',
-                    borderRadius: '4px',
-                    marginTop: '4px',
-                    fontWeight: 700,
-                    fontFamily: "'Inter', sans-serif",
-                    whiteSpace: 'nowrap',
-                    lineHeight: 1,
-                    flexShrink: 0,
-                  }}
-                >
-                  ↗ SINCE 2023
-                </span>
+              {/* WEBDEV — muted */}
+              <span style={{ ...titleStyle, color: '#2a2a2a', display: 'block' }}>
+                WEBDEV
               </span>
 
-              {/* HR + stack label */}
+              {/* SINCE 2023 — own line below WEBDEV */}
+              <span
+                style={{
+                  display: 'inline-block',
+                  marginTop: '10px',
+                  background: '#ccff00',
+                  color: '#0b0b0b',
+                  fontSize: '10px',
+                  letterSpacing: '0.14em',
+                  padding: '4px 10px',
+                  borderRadius: '4px',
+                  fontWeight: 700,
+                  fontFamily: "'Inter', sans-serif",
+                  whiteSpace: 'nowrap',
+                  lineHeight: 1,
+                }}
+              >
+                ↗ SINCE 2023
+              </span>
+
+              {/* HR + stack label — right-aligned, ~1 cm stub on far right */}
               <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
                 <div style={{ flex: 1, height: '1px', background: '#1c1c1c' }} />
                 <span
@@ -350,7 +402,7 @@ const Hero = () => {
                 >
                   MERN · PYTHON · FULL STACK
                 </span>
-                <div style={{ flex: 1, height: '1px', background: '#1c1c1c' }} />
+                <div style={{ width: '16px', flexShrink: 0, height: '1px', background: '#1c1c1c' }} />
               </div>
             </motion.div>
           </motion.div>
@@ -408,6 +460,41 @@ const Hero = () => {
             >
               Contact Me
             </motion.a>
+
+            {/* Responds within 24hrs — inline beside Contact Me, desktop only */}
+            <motion.div
+              animate={{ y: [-6, 6, -6] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ position: 'relative', left: '3cm', top: '-1.25cm' }}
+              className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-50 text-sm font-medium shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(249,115,22,0.2)] backdrop-blur-md"
+            >
+              <span className="text-orange-300">⚡</span>
+              <span>Responds within 24hrs</span>
+            </motion.div>
+          </motion.div>
+
+          {/* Mobile/Tablet Badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 4.1 }}
+            className="mt-8 flex flex-wrap items-center justify-center lg:hidden gap-3 w-full"
+          >
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-md text-xs font-medium text-emerald-50 shadow-[0_4px_15px_rgba(16,185,129,0.15)]">
+              <div className="relative flex h-2 w-2 mr-1">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </div>
+              <span>Available for work</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-md text-xs font-medium text-cyan-50 shadow-[0_4px_15px_rgba(6,182,212,0.15)]">
+              <span className="text-cyan-300">✦</span>
+              <span>12+ Projects shipped</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 backdrop-blur-md text-xs font-medium text-orange-50 shadow-[0_4px_15px_rgba(249,115,22,0.15)]">
+              <span className="text-orange-300">⚡</span>
+              <span>Responds within 24hrs</span>
+            </div>
           </motion.div>
         </div>
 
