@@ -210,7 +210,7 @@ const About = () => {
                 className="relative z-10"
               >
                 <a
-                  href="/resume.pdf"
+                  href="https://drive.google.com/file/d/1NQzIMLxpSYHQYQx-SVFcZrT27lMZuQF7/view?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-4 bg-accent-lime text-black font-black px-8 py-4 rounded-full group hover:shadow-[0_0_40px_rgba(204,255,0,0.35)] hover:scale-105 transition-all duration-300 shadow-sm"

@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 
 // ── Fallback Project Data ────────────────────────────────────
@@ -378,36 +377,6 @@ const Projects = () => {
         </div>
 
 
-        {/* ── View All CTA ── */}
-        <motion.div
-          className="mt-16 md:mt-24 pt-10 border-t border-zinc-800/60 flex items-center justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <Link
-            to="/projects"
-            className="group flex items-center gap-5"
-          >
-            <div
-              className="w-14 h-14 rounded-full border-2 border-zinc-700 group-hover:border-accent-lime group-hover:scale-110 active:scale-95 flex items-center justify-center transition-all duration-500 relative overflow-hidden shrink-0"
-            >
-              <div className="absolute inset-0 bg-accent-lime/10 scale-0 group-hover:scale-100 rounded-full transition-transform duration-500 ease-out" />
-              <div className="relative text-white group-hover:text-accent-lime transition-colors duration-500">
-                <ArrowUpRight />
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-white font-black text-xl md:text-2xl uppercase tracking-tighter font-heading group-hover:text-accent-lime transition-colors duration-500">
-                View All Projects
-              </span>
-              <span className="text-zinc-600 text-[10px] font-mono uppercase tracking-[0.3em] group-hover:text-zinc-400 transition-colors duration-500">
-                Complete Archive →
-              </span>
-            </div>
-          </Link>
-        </motion.div>
 
       </div>
     </section>
