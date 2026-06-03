@@ -15,8 +15,7 @@ const allProjects = [
     description:
       'An advanced engineering tool that performs deep structural and security analysis on source code using Large Language Models, providing automated documentation and vulnerability detection.',
     tags: ['Next.js', 'OpenAI', 'Node.js', 'Prism.js'],
-    image:
-      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: '/SnapPDF home Image.jpeg',
     accent: '#00FFFF',
     link: '#',
     github: '#',
@@ -29,8 +28,7 @@ const allProjects = [
     description:
       'A medical visual language model platform for X-ray analysis using LLaVA-1.5. Features GradCAM heatmaps, structured PDF report generation, and a React dashboard with Supabase auth.',
     tags: ['LLaVA-1.5', 'FastAPI', 'React', 'Supabase'],
-    image:
-      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: '/Med VLM.png',
     accent: '#B599FF',
     link: '#',
     github: 'https://github.com/Divya241181/MedicalVLM',

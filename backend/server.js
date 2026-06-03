@@ -93,7 +93,7 @@ const seedData = async () => {
           accent: "#00FFFF",
           link: "#",
           github: "#",
-          image: "",
+          image: "/SnapPDF home Image.jpeg",
           order: 0
         },
         {
@@ -104,7 +104,7 @@ const seedData = async () => {
           accent: "#B599FF",
           link: "#",
           github: "https://github.com/Divya241181",
-          image: "",
+          image: "/Med VLM.png",
           order: 1
         },
         {
